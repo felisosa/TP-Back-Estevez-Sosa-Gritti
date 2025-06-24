@@ -1,0 +1,25 @@
+{
+  "name": "tp-back-estevez-sosa-gritti",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "build": "tsc -p ./tsconfig.json",
+    "start:dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/app.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.1",
+  "devDependencies": {
+    "tsc-watch": "6.0.4"
+  },
+  "dependencies": {
+    "@types/express": "5.0.3",
+    "@types/node": "24.0.3",
+    "D": "1.0.0",
+    "express": "5.1.0",
+    "typescript": "5.8.3"
+  }
+}

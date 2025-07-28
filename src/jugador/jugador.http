@@ -1,0 +1,43 @@
+### obtener equipos
+GET http://localhost:3000/api/jugadores
+
+
+### obtener un equipo
+GET http://localhost:3000/api/jugadores/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+
+
+### crear equipo  
+POST http://localhost:3000/api/jugadores
+Content-Type:application/json
+
+{  
+    "nombre": "borja",
+    "apellido": "Lo Celso",
+    "dni":"40840234",
+    "edad": "29",
+    "numero":"20"
+   
+}
+
+### modificar un equipo
+PUT http://localhost:3000/api/jugadores/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+Content-Type:application/json
+
+{  
+    "nombre": "Lionel",
+    "apellido": "Messi",
+    "numero": "10",
+    "edad": "36",
+    "dni":"46834644"
+}
+#### modificar
+PATCH  http://localhost:3000/api/jugadores/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+Content-Type:application/json
+
+{  
+    "nombre": "Cristiano",
+    "apellido": "Ronaldo"
+}
+
+### eliminar equipo
+DELETE http://localhost:3000/api/jugadores/a02b91bc-3769-4221-beb1-d7a3aeba7dad

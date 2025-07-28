@@ -1,0 +1,41 @@
+### obtener equipos
+GET http://localhost:3000/api/dts
+
+
+### obtener un equipo
+GET http://localhost:3000/api/dts/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+
+
+### crear equipo  
+POST http://localhost:3000/api/dts
+Content-Type:application/json
+
+{  
+    "nombre": "Pep",
+    "apellido": "Guardiola",
+    "dni":"30432345",
+    "edad": "55"
+   
+}
+
+### modificar un equipo
+PUT http://localhost:3000/api/dts/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+Content-Type:application/json
+
+{  
+    "nombre": "ogro",
+    "apellido": "fabbiani",
+    "edad": "70",
+    "dni":"46834644"
+}
+#### modificar
+PATCH  http://localhost:3000/api/dts/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+Content-Type:application/json
+
+{  
+    "nombre": "Cholo",
+    "apellido": "Simeone"
+}
+
+### eliminar equipo
+DELETE http://localhost:3000/api/dts/a02b91bc-3769-4221-beb1-d7a3aeba7dad

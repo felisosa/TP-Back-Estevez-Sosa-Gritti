@@ -1,6 +1,8 @@
 import Express, { NextFunction, Request, Response } from "express"
 import { equipoRouter } from "./equipo/equipo.routes.js";
 import { partidoRouter } from "./partido/partido.routes.js";
+import { jugadorRouter } from "./jugador/jugadores.route.js";
+import { dtRouter } from "./Dt/dts.route.js";
 
 const app = Express()
 app.use(Express.json())  
@@ -8,6 +10,8 @@ app.use(Express.json())
 
 app.use('/api/equipos', equipoRouter)
 app.use('/api/partido', partidoRouter)
+app.use('/api/jugadores', jugadorRouter)
+app.use('/api/dts', dtRouter)
 
 app.use((_, res) => {
     res.status(404).send({message: 'Busqueda no encontrada'})

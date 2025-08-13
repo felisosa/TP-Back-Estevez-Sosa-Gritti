@@ -13,26 +13,26 @@ const jugadores = [
 ]
 export class JugadorRepository implements Repository<Jugador>{
 
-    public findAll(): Jugador[] | undefined {
-        return jugadores
+    public async findAll(): Promise<Jugador[] | undefined> {
+        return await jugadores
     }
-    public findOne(item: { id: string }): Jugador | undefined {
-       return jugadores.find((jugador) => jugador.id === item.id)
+    public async findOne(item: { id: string }): Promise<Jugador | undefined >{
+       return await jugadores.find((jugador) => jugador.id === item.id)
     }
-    public add(item: Jugador): Jugador | undefined {
-        jugadores.push(item)
+    public async add(item: Jugador): Promise<Jugador | undefined> {
+        await jugadores.push(item)
         return item
     }
 
-    public update(item: Jugador): Jugador | undefined {
-        const jugadorIdx = jugadores.findIndex((jugador) => jugador.id===item.id)
+    public async update(id: string, item: Jugador): Promise<Jugador | undefined> {
+        const jugadorIdx = await jugadores.findIndex((jugador) => jugador.id===item.id)
         if (jugadorIdx!==-1){
            jugadores[jugadorIdx]={... jugadores[jugadorIdx], ...item} 
         }
         return jugadores[jugadorIdx]
     }
-    public delete(item: { id: string; }): Jugador | undefined {
-         const jugadorIdx = jugadores.findIndex((jugador) => jugador.id === item.id)
+    public async delete(item: { id: string; }): Promise<Jugador | undefined >{
+         const jugadorIdx = await jugadores.findIndex((jugador) => jugador.id === item.id)
     if(jugadorIdx !== -1){
         const deletedJugadores= [jugadorIdx]
         jugadores.splice(jugadorIdx, 1)

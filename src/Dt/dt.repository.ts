@@ -12,26 +12,26 @@ const dts = [
 ]
 export class DtRepository implements Repository<Dt>{
 
-    public findAll(): Dt[] | undefined {
-        return dts
+    public   async findAll(): Promise<Dt [] | undefined >{
+        return await dts
     }
-    public findOne(item: { id: string }): Dt | undefined {
-       return dts.find((dt) => dt.id === item.id)
+    public async findOne(item: { id: string }): Promise<Dt | undefined >{
+       return await dts.find((dt) => dt.id === item.id)
     }
-    public add(item: Dt): Dt | undefined {
-        dts.push(item)
+    public async add(item: Dt): Promise<Dt | undefined> {
+        await dts.push(item)
         return item
     }
 
-    public update(item: Dt): Dt | undefined {
-        const dtIdx = dts.findIndex((dt) => dt.id===item.id)
+    public async update(id:string, item: Dt): Promise <Dt | undefined> {
+        const dtIdx = await dts.findIndex((dt) => dt.id===item.id)
         if (dtIdx!==-1){
            dts[dtIdx]={... dts[dtIdx], ...item} 
         }
         return dts[dtIdx]
     }
-    public delete(item: { id: string; }): Dt | undefined {
-         const dtIdx = dts.findIndex((dt) => dt.id === item.id)
+    public async delete(item: { id: string; }): Promise<Dt | undefined> {
+         const dtIdx = await dts.findIndex((dt) => dt.id === item.id)
     if(dtIdx !== -1){
         const deletedDts= [dtIdx]
         dts.splice(dtIdx, 1)

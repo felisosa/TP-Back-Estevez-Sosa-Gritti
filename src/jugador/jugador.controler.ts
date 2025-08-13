@@ -21,12 +21,12 @@ function sanitizeJugadorInput(req: Request, res: Response, next: NextFunction){
 
 }
 
-function findAll(req:Request, res:Response) {
-    res.json({data:repository.findAll()})
+async function findAll(req:Request, res:Response) {
+    res.json({data:await repository.findAll()})
 }
-function findOne(req:Request,res:Response) {
+async function findOne(req:Request,res:Response) {
     const id = req.params.id
-    const jugador = repository.findOne({id})
+    const jugador = await repository.findOne({id})
     if(!jugador){
        res.status(404).send({message: 'Jugador no encontrado'})
        return
@@ -34,7 +34,7 @@ function findOne(req:Request,res:Response) {
     res.json({data: jugador})
 }
 
-function add(req:Request, res:Response) {
+async function add(req:Request, res:Response) {
     const input = req.body.sanitizedInput
 
     const jugadorInput = new Jugador(
@@ -45,14 +45,14 @@ function add(req:Request, res:Response) {
         input.numero,
     )
 
-    const jugador = repository.add(jugadorInput)
+    const jugador = await repository.add(jugadorInput)
     res.status(201).send({message: 'Jugador creado', data: jugador})
     return
 }
 
-function update (req:Request, res:Response) {
+async function update (req:Request, res:Response) {
     req.body.sanitizedInput.id = req.params.id
-    const jugador= repository.update(req.body.sanitizedInput)
+    const jugador = await repository.update(req.params.id, req.body.sanitizedInput);
     
     if (!jugador){
         res.status(404).send({message: ' Jugador no encontrado'})
@@ -65,9 +65,9 @@ function update (req:Request, res:Response) {
 }
 
 
-function remove(req:Request, res:Response){
+async function remove(req:Request, res:Response){
     const id=req.params.id
-    const jugador = repository.delete({id})
+    const jugador = await repository.delete({id})
 
     if(!jugador){
         res.status(404).send({ message:'Jugador no encontrado'})

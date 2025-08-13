@@ -12,26 +12,26 @@ const equipos = [
 ]
 export class EquipoRepository implements Repository<Equipo>{
 
-    public findAll(): Equipo[] | undefined {
-        return equipos
+    public async findAll(): Promise<Equipo[] | undefined >{
+        return await equipos
     }
-    public findOne(item: { id: string }): Equipo | undefined {
-       return equipos.find((equipo) => equipo.id === item.id)
+    public async findOne(item: { id: string }): Promise<Equipo | undefined >{
+       return await equipos.find((equipo) => equipo.id === item.id)
     }
-    public add(item: Equipo): Equipo | undefined {
-        equipos.push(item)
+    public async add(item: Equipo): Promise<Equipo | undefined> {
+        await equipos.push(item)
         return item
     }
 
-    public update(item: Equipo): Equipo | undefined {
-        const equipoIdx = equipos.findIndex((equipo) => equipo.id===item.id)
+    public async update(id: string,item: Equipo): Promise<Equipo | undefined >{
+        const equipoIdx = await equipos.findIndex((equipo) => equipo.id===item.id)
         if (equipoIdx!==-1){
            equipos[equipoIdx]={... equipos[equipoIdx], ...item} 
         }
         return equipos[equipoIdx]
     }
-    public delete(item: { id: string; }): Equipo | undefined {
-         const equipoIdx = equipos.findIndex((equipo) => equipo.id === item.id)
+    public async delete(item: { id: string; }): Promise<Equipo | undefined >{
+         const equipoIdx = await equipos.findIndex((equipo) => equipo.id === item.id)
     if(equipoIdx !== -1){
         const deletedEquipos= equipos[equipoIdx]
         equipos.splice(equipoIdx, 1)

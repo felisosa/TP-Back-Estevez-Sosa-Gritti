@@ -19,12 +19,12 @@ function sanitizeDtInput(req: Request, res: Response, next: NextFunction){
 
 }
 
-function findAll(req:Request, res:Response) {
-    res.json({data:repository.findAll()})
+async function findAll(req:Request, res:Response) {
+    res.json({data:await repository.findAll()})
 }
-function findOne(req:Request,res:Response) {
+async function findOne(req:Request,res:Response) {
     const id = req.params.id
-    const dt = repository.findOne({id})
+    const dt = await repository.findOne({id})
     if(!dt){
        res.status(404).send({message: 'Director Tecnico no encontrado'})
        return
@@ -32,7 +32,7 @@ function findOne(req:Request,res:Response) {
     res.json({data:dt})
 }  
 
-function add(req:Request, res:Response) {
+async function add(req:Request, res:Response) {
     const input = req.body.sanitizedInput
 
     const dtInput = new Dt( 
@@ -42,14 +42,14 @@ function add(req:Request, res:Response) {
         input.edad,
     )
 
-    const dt = repository.add(dtInput)
+    const dt = await repository.add(dtInput)
     res.status(201).send({message: 'Director tecnico creado', data: dt})
     return
 }
 
-function update (req:Request, res:Response) {
+async function update (req:Request, res:Response) {
     req.body.sanitizedInput.id = req.params.id
-    const dt= repository.update(req.body.sanitizedInput)
+    const dt = await repository.update(req.params.id, req.body.sanitizedInput);
     
     if (!dt){
         res.status(404).send({message: 'Director tecnico no encontrado'})
@@ -62,9 +62,9 @@ function update (req:Request, res:Response) {
 }
 
 
-function remove(req:Request, res:Response){
+async function remove(req:Request, res:Response){
     const id=req.params.id
-    const dt = repository.delete({id})
+    const dt = await repository.delete({id})
 
     if(!dt){
         res.status(404).send({ message:'Director tecnico no encontrado'})

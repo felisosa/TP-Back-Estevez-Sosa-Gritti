@@ -19,12 +19,12 @@ function sanitizeEquipoInput(req: Request, res: Response, next: NextFunction){
 
 }
 
-function findAll(req:Request, res:Response) {
-    res.json({data:repository.findAll()})
+async function findAll(req:Request, res:Response) {
+    res.json({data:await repository.findAll()})
 }
-function findOne(req:Request,res:Response) {
+async function findOne(req:Request,res:Response) {
     const id = req.params.id
-    const equipo = repository.findOne({id})
+    const equipo = await repository.findOne({id})
     if(!equipo){
        res.status(404).send({message: 'Equipo no encontrado'})
        return
@@ -32,7 +32,7 @@ function findOne(req:Request,res:Response) {
     res.json({data:equipo})
 }  
 
-function add(req:Request, res:Response) {
+async function add(req:Request, res:Response) {
     const input = req.body.sanitizedInput
 
     const equipoInput = new Equipo( 
@@ -42,14 +42,14 @@ function add(req:Request, res:Response) {
         input.categoria
     )
 
-    const equipo = repository.add(equipoInput)
+    const equipo = await repository.add(equipoInput)
     res.status(201).send({message: 'Equipo creado', data: equipo})
     return
 }
 
-function update (req:Request, res:Response) {
+async function update (req:Request, res:Response) {
     req.body.sanitizedInput.id = req.params.id
-    const equipo= repository.update(req.body.sanitizedInput)
+    const equipo = await repository.update(req.params.id, req.body.sanitizedInput);
     
     if (!equipo){
         res.status(404).send({message: 'Equipo no encontrado'})
@@ -62,9 +62,9 @@ function update (req:Request, res:Response) {
 }
 
 
-function remove(req:Request, res:Response){
+async function remove(req:Request, res:Response){
     const id=req.params.id
-    const equipo = repository.delete({id})
+    const equipo = await repository.delete({id})
 
     if(!equipo){
         res.status(404).send({ message:'Equipo no encontrado'})

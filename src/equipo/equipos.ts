@@ -6,6 +6,6 @@ export class Equipo {
         public liga:string, 
         public pais:string, 
         public categoria:string,
-        public id = crypto.randomUUID()) 
+        public id ?: number) 
         {}
 }

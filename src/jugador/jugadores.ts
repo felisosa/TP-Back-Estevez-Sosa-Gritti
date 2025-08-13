@@ -7,6 +7,7 @@ export class Jugador{
     public dni: string,
     public edad: string,
     public numero: string,
+    public posicion:string,
     public id = crypto.randomUUID())
     {}
   } 

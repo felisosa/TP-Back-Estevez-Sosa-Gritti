@@ -1,42 +1,42 @@
 import { Repository } from "../shared/repository.js";
 import { Equipo } from "./equipos.js";
-
+import { pool } from "../shared/db/conm.mysql.js";
+import { ResultSetHeader, RowDataPacket } from 'mysql2';
+ 
 const equipos = [
     new Equipo (
         'Gimnasia',
         'LPF',
         'Argentina',
         'Primera A',
-        'a02b91bc-3769-4221-beb1-d7a3aeba7dad',
     )
 ]
 export class EquipoRepository implements Repository<Equipo>{
 
     public async findAll(): Promise<Equipo[] | undefined >{
-        return await equipos
+       const [equipos]= await pool.query('select * from equipo')
+       return equipos as Equipo[]
+       
     }
     public async findOne(item: { id: string }): Promise<Equipo | undefined >{
-       return await equipos.find((equipo) => equipo.id === item.id)
+        const id = Number.parseInt(item.id)
+        const [equipos]= await pool.query<RowDataPacket[]>('select * from equipo where id_equipo = ?',
+        [id])
+        if (equipos.length === 0){
+            return undefined
+        }
+        const equipo = equipos[0] as Equipo
+        
+        return equipo 
     }
     public async add(item: Equipo): Promise<Equipo | undefined> {
-        await equipos.push(item)
-        return item
+       throw new Error('not implemented');
     }
 
     public async update(id: string,item: Equipo): Promise<Equipo | undefined >{
-        const equipoIdx = await equipos.findIndex((equipo) => equipo.id===item.id)
-        if (equipoIdx!==-1){
-           equipos[equipoIdx]={... equipos[equipoIdx], ...item} 
-        }
-        return equipos[equipoIdx]
+        throw new Error('not implemented');
     }
     public async delete(item: { id: string; }): Promise<Equipo | undefined >{
-         const equipoIdx = await equipos.findIndex((equipo) => equipo.id === item.id)
-    if(equipoIdx !== -1){
-        const deletedEquipos= equipos[equipoIdx]
-        equipos.splice(equipoIdx, 1)
-        return deletedEquipos
-        } 
-
+        throw new Error('not implemented');
     }
 }

@@ -15,30 +15,19 @@ const partidos = [
 export class PartidoRepository implements Repository<Partido>{
 
     public async findAll(): Promise< Partido[] | undefined> {
-        return await partidos
+        throw new Error ('not implemented')
     }
     public async findOne(item: { id: string }): Promise<Partido | undefined> {
-       return await partidos.find((partido) => partido.id === item.id)
+       throw new Error ('not implemented')
     }
     public async add(item: Partido):Promise< Partido | undefined >{
-       await partidos.push(item)
-        return item
+       throw new Error ('not implemented')
     }
 
     public async update(id:string,item: Partido): Promise <Partido | undefined >{
-        const partidoIdx = await partidos.findIndex((partido) => partido.id===item.id)
-        if (partidoIdx!==-1){
-           partidos[partidoIdx]={... partidos[partidoIdx], ...item} 
-        }
-        return partidos[partidoIdx]
+        throw new Error ('not implemented')
     }
     public async delete(item: { id: string; }): Promise <Partido | undefined> {
-         const partidoIdx = await partidos.findIndex((partido) => partido.id === item.id)
-    if(partidoIdx !== -1){
-        const deletedPartidos= partidos[partidoIdx]
-        partidos.splice(partidoIdx, 1)
-        return deletedPartidos
+         throw new Error ('not implemented')
         } 
-
     }
-}

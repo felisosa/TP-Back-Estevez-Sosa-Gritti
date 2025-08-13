@@ -10,7 +10,7 @@ function sanitizeJugadorInput(req: Request, res: Response, next: NextFunction){
         dni: req.body.dni,
         edad: req.body.edad,
         numero: req.body.numero,
-       
+        posicion: req.body.posicion
     }
 
     Object.keys(req.body.sanitizedInput).
@@ -43,6 +43,7 @@ async function add(req:Request, res:Response) {
         input.dni,
         input.edad,
         input.numero,
+        input.posicion,
     )
 
     const jugador = await repository.add(jugadorInput)

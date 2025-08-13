@@ -15,7 +15,8 @@ Content-Type:application/json
     "apellido": "Lo Celso",
     "dni":"40840234",
     "edad": "29",
-    "numero":"20"
+    "numero":"20",
+    "posiciono":"dc"
    
 }
 
@@ -28,7 +29,9 @@ Content-Type:application/json
     "apellido": "Messi",
     "numero": "10",
     "edad": "36",
-    "dni":"46834644"
+    "dni":"46834644",
+    "posicion":"mco"
+
 }
 #### modificar
 PATCH  http://localhost:3000/api/jugadores/a02b91bc-3769-4221-beb1-d7a3aeba7dad

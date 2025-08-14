@@ -29,14 +29,26 @@ export class EquipoRepository implements Repository<Equipo>{
         
         return equipo 
     }
-    public async add(item: Equipo): Promise<Equipo | undefined> {
-       throw new Error('not implemented');
+    public async add(equipoInput: Equipo): Promise<Equipo | undefined> {
+       const {id, ...equipoRow}= equipoInput
+       const [result]= await pool.query<ResultSetHeader>('insert into equipo set ?', [equipoRow])
+       equipoInput.id=result.insertId
+       return equipoInput
     }
 
-    public async update(id: string,item: Equipo): Promise<Equipo | undefined >{
-        throw new Error('not implemented');
+    public async update(id: string,equipoInput: Equipo): Promise<Equipo | undefined >{
+        const equipoId=Number.parseInt(id)
+        const {id:_ ,...equipoRow}=equipoInput
+        await pool.query('update equipo set ? where id_equipo = ?', [equipoRow, equipoId])
+        return await this.findOne({id})
     }
     public async delete(item: { id: string; }): Promise<Equipo | undefined >{
-        throw new Error('not implemented');
-    }
+        try {
+        const equipoToDelete= await this.findOne(item)
+        const equipoId = Number.parseInt(item.id)
+        await pool.query('delete from equipo where id_equipo = ?', equipoId)
+        return equipoToDelete}
+    catch (error: any){
+        throw new Error ('unable to delete team')}
+}
 }

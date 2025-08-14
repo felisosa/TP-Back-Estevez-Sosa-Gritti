@@ -6,9 +6,9 @@ const repository = new EquipoRepository()
 function sanitizeEquipoInput(req: Request, res: Response, next: NextFunction){
     req.body.sanitizedInput={    
         nombre: req.body.nombre,
-        categoria: req.body.categoria,
         liga: req.body.liga,
         pais: req.body.pais,
+        categoria: req.body.categoria
     }
 
     Object.keys(req.body.sanitizedInput).

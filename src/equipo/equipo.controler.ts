@@ -20,57 +20,23 @@ function sanitizeEquipoInput(req: Request, res: Response, next: NextFunction){
 }
 
 async function findAll(req:Request, res:Response) {
-    res.json({data:await repository.findAll()})
+    res.status[500].json({message: 'Not implemented'})
 }
 async function findOne(req:Request,res:Response) {
-    const id = req.params.id
-    const equipo = await repository.findOne({id})
-    if(!equipo){
-       res.status(404).send({message: 'Equipo no encontrado'})
-       return
-    }
-    res.json({data:equipo})
+    res.status[500].json({message: 'Not implemented'})
 }  
 
 async function add(req:Request, res:Response) {
-    const input = req.body.sanitizedInput
-
-    const equipoInput = new Equipo( 
-        input.nombre,
-        input.liga,
-        input.pais,
-        input.categoria
-    )
-
-    const equipo = await repository.add(equipoInput)
-    res.status(201).send({message: 'Equipo creado', data: equipo})
-    return
+  res.status[500].json({message: 'Not implemented'})
 }
 
 async function update (req:Request, res:Response) {
-    req.body.sanitizedInput.id = req.params.id
-    const equipo = await repository.update(req.params.id, req.body.sanitizedInput);
-    
-    if (!equipo){
-        res.status(404).send({message: 'Equipo no encontrado'})
-        return
-    }
-    
-   
-    res.status(200).send({message: 'Equipo modificado correctamente', data: equipo})
-    return
+    res.status[500].json({message: 'Not implemented'})
 }
 
 
 async function remove(req:Request, res:Response){
-    const id=req.params.id
-    const equipo = await repository.delete({id})
-
-    if(!equipo){
-        res.status(404).send({ message:'Equipo no encontrado'})
-    } else {
-      res.status(200).send({message:'Equipo eliminado correctamente'})
-    }
+    res.status[500].json({message: 'Not implemented'})
     }
 
 export { sanitizeEquipoInput, findAll, findOne, add, update, remove }

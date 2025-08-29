@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from "express"
-import { JugadorRepository } from "./jugador.repository.js"
 import { Jugador } from "./jugadores.js"
-const repository = new JugadorRepository()
-
+import { orm } from "../shared/db/orm.js";
 function sanitizeJugadorInput(req: Request, res: Response, next: NextFunction){
     req.body.sanitizedInput={    
         nombre: req.body.nombre,
@@ -20,62 +18,27 @@ function sanitizeJugadorInput(req: Request, res: Response, next: NextFunction){
     next()
 
 }
-
 async function findAll(req:Request, res:Response) {
-    res.json({data:await repository.findAll()})
+    res.status(500).json({message: 'Not implemented'})
 }
 async function findOne(req:Request,res:Response) {
-    const id = req.params.id
-    const jugador = await repository.findOne({id})
-    if(!jugador){
-       res.status(404).send({message: 'Jugador no encontrado'})
-       return
-    }
-    res.json({data: jugador})
-}
+    res.status(500).json({message: 'Not implemented'})
+}  
 
 async function add(req:Request, res:Response) {
-    const input = req.body.sanitizedInput
-
-    const jugadorInput = new Jugador(
-        input.nombre,
-        input.apellido,
-        input.dni,
-        input.edad,
-        input.numero,
-        input.posicion,
-    )
-
-    const jugador = await repository.add(jugadorInput)
-    res.status(201).send({message: 'Jugador creado', data: jugador})
-    return
+  res.status(500).json({message: 'Not implemented'})
 }
 
 async function update (req:Request, res:Response) {
-    req.body.sanitizedInput.id = req.params.id
-    const jugador = await repository.update(req.params.id, req.body.sanitizedInput);
-    
-    if (!jugador){
-        res.status(404).send({message: ' Jugador no encontrado'})
-        return
-    }
-    
-   
-    res.status(200).send({message: ' Jugador modificado correctamente', data: jugador})
-    return
+    res.status(500).json({message: 'Not implemented'})
 }
 
 
 async function remove(req:Request, res:Response){
-    const id=req.params.id
-    const jugador = await repository.delete({id})
-
-    if(!jugador){
-        res.status(404).send({ message:'Jugador no encontrado'})
-    } else {
-      res.status(200).send({message:'Jugador eliminado correctamente'})
-    }
+    res.status(500).json({message: 'Not implemented'})
     }
 
+export { sanitizeJugadorInput, findAll, findOne, add, update, remove }
 
-    export { sanitizeJugadorInput, findAll, findOne, add, update, remove }
+
+   

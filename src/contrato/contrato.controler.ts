@@ -1,13 +1,12 @@
 import { Request, Response, NextFunction } from "express"
-import { Dt } from "./dts.js"
+import { Contrato } from "./contratos.js"
 import { orm } from "../shared/db/orm.js";
 
-function sanitizeDtInput(req: Request, res: Response, next: NextFunction){
+function sanitizeContratoInput(req: Request, res: Response, next: NextFunction){
     req.body.sanitizedInput={    
-        nombre: req.body.nombre,
-        apellido: req.body.apellido,
-        dni: req.body.dni,
-        edad: req.body.edad,
+        fechaIni: req.body.nombre,
+        fechaFin: req.body.liga,
+        fechaRealFin: req.body.pais
     }
 
     Object.keys(req.body.sanitizedInput).
@@ -38,4 +37,4 @@ async function remove(req:Request, res:Response){
     res.status(500).json({message: 'Not implemented'})
     }
 
-export { sanitizeDtInput, findAll, findOne, add, update, remove }
+export { sanitizeContratoInput, findAll, findOne, add, update, remove }

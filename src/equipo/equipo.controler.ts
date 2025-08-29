@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from "express"
-import { EquipoRepository } from "./equipo.repository.js"
+//import { EquipoRepository } from "./equipo.repository.js"//
 import { Equipo } from "./equipos.js"
-const repository = new EquipoRepository()
-
+import { orm } from "../shared/db/orm.js";
 function sanitizeEquipoInput(req: Request, res: Response, next: NextFunction){
     req.body.sanitizedInput={    
         nombre: req.body.nombre,
@@ -20,23 +19,23 @@ function sanitizeEquipoInput(req: Request, res: Response, next: NextFunction){
 }
 
 async function findAll(req:Request, res:Response) {
-    res.status[500].json({message: 'Not implemented'})
+    res.status(500).json({message: 'Not implemented'})
 }
 async function findOne(req:Request,res:Response) {
-    res.status[500].json({message: 'Not implemented'})
+    res.status(500).json({message: 'Not implemented'})
 }  
 
 async function add(req:Request, res:Response) {
-  res.status[500].json({message: 'Not implemented'})
+  res.status(500).json({message: 'Not implemented'})
 }
 
 async function update (req:Request, res:Response) {
-    res.status[500].json({message: 'Not implemented'})
+    res.status(500).json({message: 'Not implemented'})
 }
 
 
 async function remove(req:Request, res:Response){
-    res.status[500].json({message: 'Not implemented'})
+    res.status(500).json({message: 'Not implemented'})
     }
 
 export { sanitizeEquipoInput, findAll, findOne, add, update, remove }

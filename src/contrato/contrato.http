@@ -1,0 +1,35 @@
+### obtener equipos
+GET http://localhost:3000/api/contratos
+
+
+### obtener un equipo
+GET http://localhost:3000/api/contratos/1
+
+### crear equipo  
+POST http://localhost:3000/api/contratos
+Content-Type:application/json
+
+{  
+    "fechaIni": "23/05/2023",
+    "fechaFin": "25/05/2024,
+    "fechaRealFin": "23/05/2024"
+}
+
+### modificar un equipo
+PUT http://localhost:3000/api/contratos/2
+Content-Type:application/json
+
+{  "fechaIni": "23/05/2024",
+    "fechaFin": "25/05/2025,
+    "fechaRealFin": "23/05/2025"
+}
+#### modificar
+PATCH  http://localhost:3000/api/contratos/2
+Content-Type:application/json
+
+{  
+    "fechaIni": "14/05/2023"
+}
+
+### eliminar equipo
+DELETE http://localhost:3000/api/contratos/2

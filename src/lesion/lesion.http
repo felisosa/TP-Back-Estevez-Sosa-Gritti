@@ -1,0 +1,36 @@
+### obtener lesiones
+GET http://localhost:3000/api/lesiones
+
+
+### obtener un lesion
+GET http://localhost:3000/api/lesiones/1
+
+### crear lesion  
+POST http://localhost:3000/api/lesiones
+Content-Type:application/json
+
+{  
+    "cdlesion": "A",
+    "desclesion": "Desgarro en partido",
+    
+}
+
+### modificar una lesion
+PUT http://localhost:3000/api/lesiones/2
+Content-Type:application/json
+
+{  
+    "cdlesion": "C",
+    "desclesion": "Fractura en choque",
+}
+#### modificar
+PATCH  http://localhost:3000/api/lesiones/2
+Content-Type:application/json
+
+{  
+    "cdlesion": "B",
+    
+}
+
+### eliminar lesion
+DELETE http://localhost:3000/api/lesiones/2

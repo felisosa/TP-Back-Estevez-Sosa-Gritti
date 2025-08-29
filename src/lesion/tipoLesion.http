@@ -1,0 +1,37 @@
+### obtener tipo lesiones
+GET http://localhost:3000/api/tipoLesiones
+
+
+### obtener un tipo lesion
+GET http://localhost:3000/api/tipoLesiones/1
+
+### crear tipo lesion 
+POST http://localhost:3000/api/tipoLesiones
+Content-Type:application/json
+
+{  
+    "descripcion": "Desgarro",
+    "diasRecuperacion": "25",
+    "tratamiento": "magneto"
+}
+
+### modificar un tipo lesion
+PUT http://localhost:3000/api/tipoLesiones/2
+Content-Type:application/json
+
+{  
+    "descripcion": "Fractura",
+    "diasRecuperacion": "65",
+    "tratamiento": "Yeso, reposo, kinesiologia"
+}
+#### modificar
+PATCH  http://localhost:3000/api/tipoLesiones/2
+Content-Type:application/json
+
+{  
+    "descripcion": "Esguince",
+    "diasRecuperacion": "10",
+}
+
+### eliminar tipo lesion
+DELETE http://localhost:3000/api/tipoLesiones/2

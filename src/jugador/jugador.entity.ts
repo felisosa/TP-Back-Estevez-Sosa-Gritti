@@ -1,5 +1,5 @@
 import {Entity, OneToMany, Property, Cascade, Collection, ManyToMany} from '@mikro-orm/core'
-import { BaseEntity } from "../shared/db/baseEntity";
+import { BaseEntity } from "../shared/db/baseEntity.js"; // Importación corregida
 /*import { equipo } from "./equipo.entity.js" */
 /*import { partido } from "../partido/partido.entity.js" */
 import { Contrato } from "../contrato/contrato.entity.js" 

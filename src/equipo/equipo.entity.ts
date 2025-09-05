@@ -1,5 +1,5 @@
 import {Entity, OneToMany, Property, Cascade, Collection} from '@mikro-orm/core'
-import { BaseEntity } from "../shared/db/baseEntity";
+import { BaseEntity } from "../shared/db/baseEntity.js"; // Importacion corregida
 /*import { equipo } from "./equipo.entity.js" */
 import { Partido } from "../partido/partido.entity.js" 
 import { Contrato } from "../contrato/contrato.entity.js" 
@@ -18,10 +18,10 @@ export class Equipo extends BaseEntity {
     @Property()
     pais!: string
 
-    @OneToMany(()=>Partido, partido => partido.equipo, {cascade:[Cascade.ALL]},)
-    partidos = new Collection<Partido>(this); // Declaración de la propiedad "partidos"
+    @OneToMany(()=>Partido, partido => partido.equipo, {cascade:[Cascade.ALL]})
+    partidos = new Collection<Partido>(this); // Declaracion de la propiedad "partidos"
     @OneToMany(()=>Contrato, contrato => contrato.equipos, {cascade:[Cascade.ALL]})
-    contratos = new Collection<Contrato>(this); // Declaración de la propiedad "contratos"
+    contratos = new Collection<Contrato>(this); // Declaracion de la propiedad "contratos"
      
 
 }

@@ -1,6 +1,6 @@
 import {Entity, OneToMany, Property, Cascade, Collection, ManyToMany, ManyToOne} from '@mikro-orm/core'
-import { BaseEntity } from "../shared/db/baseEntity";
-import { Jugador } from '../jugador/jugadores';
+import { BaseEntity } from "../shared/db/baseEntity.js"; // Importación corregida
+import { Jugador } from '../jugador/jugadores.js';
 /*import { Partido } from "../partido/partido.entity.js" */
 /*import { Jugador } from "../jugador/jugador.entity.js" */
 import { tipoLesion } from "./tipoLesion.entity.js" 

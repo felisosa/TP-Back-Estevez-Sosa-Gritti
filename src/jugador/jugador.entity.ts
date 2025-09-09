@@ -23,8 +23,8 @@ export class Jugador extends BaseEntity {
     @Property({nullable: false})
     posicion!: string
 
-    @OneToMany(()=>Contrato, contrato => contrato.jugadores, {cascade:[Cascade.ALL]})
-    contratos = new Collection<Contrato>(this) // You also need to add a property for this one
-    @ManyToMany(()=>Lesion, lesion => lesion.jugadores, {cascade:[Cascade.ALL]})
-    lesiones = new Collection<Lesion>(this) // This is the missing property
+    @OneToMany(()=>Contrato, contrato => contrato.jugador, {cascade:[Cascade.ALL]})
+    contratos = new Collection<Contrato>(this)
+    @OneToMany(()=>Lesion, lesion => lesion.jugador, {cascade:[Cascade.ALL]})
+    lesiones = new Collection<Lesion>(this)
 }

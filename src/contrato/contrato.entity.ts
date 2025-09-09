@@ -1,4 +1,4 @@
-import {Entity, OneToMany, Property, Cascade, Collection,ManyToOne} from '@mikro-orm/core'
+import {Entity, OneToMany, Property, Cascade, Collection,ManyToOne, Rel} from '@mikro-orm/core'
 import { BaseEntity } from "../shared/db/baseEntity.js"; // Importación corregida
 import { Equipo } from "../equipo/equipo.entity.js" 
 import { Dt } from "../Dt/dt.entity.js" 
@@ -17,8 +17,8 @@ export class Contrato extends BaseEntity {
     @ManyToOne(()=>Dt, {cascade:[Cascade.ALL]},)
     dts = new Collection<Dt>(this); // Declaración de la propiedad "partidos"
 
-    @ManyToOne(()=> Jugador, {cascade:[Cascade.ALL]},)
-    jugadores = new Collection<Jugador>(this); // Declaración de la propiedad "partidos"
+    @ManyToOne(()=> Jugador)
+    jugador!: Rel<Jugador>;
 
     @ManyToOne(()=> Equipo, {cascade:[Cascade.ALL]})
     equipos = new Collection<Equipo>(this); // Declaración de la propiedad "contratos"

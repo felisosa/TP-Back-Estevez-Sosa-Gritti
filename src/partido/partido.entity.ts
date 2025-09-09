@@ -1,4 +1,4 @@
-import {Entity, OneToMany, Property, Cascade, Collection, ManyToOne} from '@mikro-orm/core'
+import {Entity, OneToMany, Property, Cascade, Collection, ManyToOne, Rel} from '@mikro-orm/core'
 import { BaseEntity } from "../shared/db/baseEntity.js"; // Importación corregida
 import { Equipo } from "../equipo/equipo.entity.js" 
 /*import { partido } from "../partido/partido.entity.js" */
@@ -24,6 +24,5 @@ export class Partido extends BaseEntity {
     lugar!: string
 
     @ManyToOne(()=> Equipo)
-     
-    equipo!: Equipo;
+    equipo!: Rel<Equipo>;
 }

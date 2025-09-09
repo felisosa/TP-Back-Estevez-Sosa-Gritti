@@ -16,7 +16,7 @@ Content-Type:application/json
     "horario": "15:30",
     "lugar": "Rosario",
     "rival": "cebollita",
-    "nroFecha": "3",
+    "nroFecha": "3"
 }
 
 ### modificar un partido

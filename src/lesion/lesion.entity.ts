@@ -1,6 +1,6 @@
-import {Entity, OneToMany, Property, Cascade, Collection, ManyToMany, ManyToOne} from '@mikro-orm/core'
+import {Entity, OneToMany, Property, Cascade, Collection, ManyToOne, Rel} from '@mikro-orm/core'
 import { BaseEntity } from "../shared/db/baseEntity.js"; // Importación corregida
-import { Jugador } from '../jugador/jugadores.js';
+import { Jugador } from '../jugador/jugador.entity.js';
 /*import { Partido } from "../partido/partido.entity.js" */
 /*import { Jugador } from "../jugador/jugador.entity.js" */
 import { tipoLesion } from "./tipoLesion.entity.js" 
@@ -13,8 +13,8 @@ export class Lesion extends BaseEntity {
     @Property({nullable: false})
     descLesion!: string
 
-    @ManyToMany(()=>Jugador, jugador => jugador.id, {cascade:[Cascade.ALL]},)
-    jugadores = new Collection<Jugador>(this);
+    @ManyToOne(()=>Jugador)
+    jugador!: Rel<Jugador>;
 
     @ManyToOne(()=> tipoLesion, {cascade:[Cascade.ALL]})
     tipoLesiones = new Collection<tipoLesion>(this);

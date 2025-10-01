@@ -42,7 +42,19 @@ catch (error:any) {
 }
 
 async function update (req:Request, res:Response) {
-    res.status(500).json({message: 'Not implemented'})
+    try {
+        const id = Number.parseInt(req.params.id);
+        const lesion = await em.findOne(tipoLesion, { id });
+        if (!lesion) {
+            res.status(404).json({ message: 'Tipo de lesion no encontrado' });
+            return;
+        }
+        em.assign(lesion, req.body);
+        await em.flush();
+        res.status(200).json({ message: 'Tipo de lesion actualizada', data: lesion });
+    } catch (error:any) {
+        res.status(500).json({ message: error.message });
+    }
 }
 
 

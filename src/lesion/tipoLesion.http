@@ -17,29 +17,29 @@ Content-Type: application/json
 }
 
 ### ID
-@id = {{createTipoLesiones.response.body.data.id}}
+//@id = {{createTipoLesiones.response.body.data.id}}
 
 ### Obtener tipo de lesión por id
-GET http://localhost:3000/api/tipoLesiones/5
+GET http://localhost:3000/api/tipoLesiones/1
 
 
 ### put
-PUT http://localhost:3000/api/tipoLesiones/{{id}}
+PUT http://localhost:3000/api/tipoLesiones/1
 Content-Type:application/json
 
 {  
-    "descripcion": "Fractura",
+    "descTipoLesion": "Fractura",
     "diasRecuperacion": "65",
     "tratamiento": "Yeso, reposo, kinesiologia"
 }
 #### modificar
-PATCH  http://localhost:3000/api/tipoLesiones/{{id}}
+PATCH  http://localhost:3000/api/tipoLesiones/1
 Content-Type:application/json
 
 {  
-    "descripcion": "Esguince",
-    "diasRecuperacion": "10",
+    "descTipoLesion": "Esguince",
+    "diasRecuperacion": "10"
 }
 
 ### eliminar tipo lesion
-DELETE http://localhost:3000/api/tipoLesiones/{{id}}
+DELETE http://localhost:3000/api/tipoLesiones/1

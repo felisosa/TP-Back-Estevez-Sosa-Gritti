@@ -7,7 +7,6 @@ import { dtRouter } from "./Dt/dts.route.js";
 import { orm, syncSchema } from "./shared/db/orm.js";
 import { RequestContext } from "@mikro-orm/core";
 import { lesionRouter } from './lesion/lesion.routes.js';
-import { tipoLesion } from './lesion/tipoLesion.entity.js';
 import { tipoLesionRouter } from './lesion/tipoLesion.route.js';
 import { contratoRouter } from './contrato/contrato.routes.js';
 

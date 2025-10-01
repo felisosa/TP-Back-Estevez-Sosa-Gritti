@@ -1,31 +1,44 @@
-import { Request, Response, NextFunction } from "express"
-//import { EquipoRepository } from "./equipo.repository.js"//
-import { tipoLesion } from "./tipoLesion.js"
+import { Request, Response } from "express"
 import { orm } from "../shared/db/orm.js";
-function sanitizeTipoLesionInput(req: Request, res: Response, next: NextFunction){
-    req.body.sanitizedInput={    
-        descripcion: req.body.nombre,
-        diasRecuperacion: req.body.liga,
-        tratamiento: req.body.pais,
-    }
+import { tipoLesion } from "./tipoLesion.entity.js";
+import { t } from "@mikro-orm/core";
 
-    Object.keys(req.body.sanitizedInput).
-    forEach((key)=> {
-        if(req.body.sanitizedInput[key]===undefined){delete req.body.sanitizedInput[key]}
-    })
-    next()
-
-}
+const em= orm.em
 
 async function findAll(req:Request, res:Response) {
-    res.status(500).json({message: 'Not implemented'})
+    try {
+        const tipoLesiones =  await em.find(tipoLesion, {})
+        res
+         .status(200)
+        .json({message: 'Encontrar los tipos de lesion', data: tipoLesiones})
+    } catch (error:any) {
+        res.status(500).json({message: error.message})
+        
+    }
 }
 async function findOne(req:Request,res:Response) {
-    res.status(500).json({message: 'Not implemented'})
-}  
+    try {
+        const id = Number.parseInt(req.params.id)
+        const tipoLesiones = await em.findOneOrFail(tipoLesion,{id})
+        res.status(200).json({message: 'Tipo de lesion encontrado', data: tipoLesiones})
+    }
+    catch (error:any) {
+        if (error.name==='NotFoundError'){
+            res.status(404).json({message: 'Tipo de lesion no encontrado'})
+        } else {
+            res.status(500).json({message: 'Error interno del servidor', error: error.message})
+        }
+}  }
 
 async function add(req:Request, res:Response) {
-  res.status(500).json({message: 'Not implemented'})
+  try {
+    const tipoLesiones =em.create(tipoLesion, req.body)
+    await em.flush()
+    res.status(201).json({message: 'Tipo de lesion creado', data: tipoLesiones});
+}
+catch (error:any) {
+    res.status(500).json({message: 'Error interno del servidor', error: error.message})
+}
 }
 
 async function update (req:Request, res:Response) {
@@ -37,4 +50,4 @@ async function remove(req:Request, res:Response){
     res.status(500).json({message: 'Not implemented'})
     }
 
-export { sanitizeTipoLesionInput, findAll, findOne, add, update, remove }
+export { findAll, findOne, add, update, remove }

@@ -17,6 +17,6 @@ export class tipoLesion extends BaseEntity {
     @Property({nullable: false})
     tratamiento!: string
 
-    @OneToMany(()=>Lesion, lesion => lesion.tipoLesiones, {cascade:[Cascade.ALL]},)
+    @OneToMany(() => Lesion, lesion => lesion.tipoLesion, { cascade: [Cascade.ALL] })
     lesiones = new Collection<Lesion>(this);
 }

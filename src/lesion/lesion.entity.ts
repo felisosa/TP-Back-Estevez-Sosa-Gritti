@@ -16,7 +16,7 @@ export class Lesion extends BaseEntity {
     @ManyToOne(()=>Jugador)
     jugador!: Rel<Jugador>;
 
-    @ManyToOne(()=> tipoLesion, {cascade:[Cascade.ALL]})
-    tipoLesiones = new Collection<tipoLesion>(this);
+    @ManyToOne(() => tipoLesion)
+    tipoLesion!: Rel<tipoLesion>;
     
 }

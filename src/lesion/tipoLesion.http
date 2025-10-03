@@ -42,4 +42,4 @@ Content-Type:application/json
 }
 
 ### eliminar tipo lesion
-DELETE http://localhost:3000/api/tipoLesiones/1
+DELETE http://localhost:3000/api/tipoLesiones/4

@@ -22,7 +22,7 @@ app.use('/api/equipos', equipoRouter)
 app.use('/api/partido', partidoRouter)
 app.use('/api/jugadores', jugadorRouter)
 app.use('/api/dts', dtRouter)
-app.use('/api/lesion', lesionRouter)
+app.use('/api/lesiones', lesionRouter)
 app.use('/api/tipoLesiones', tipoLesionRouter)
 app.use('/api/contrato', contratoRouter)
 

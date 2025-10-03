@@ -2,6 +2,9 @@ import { Request, Response, NextFunction } from "express"
 //import { EquipoRepository } from "./equipo.repository.js"//
 import { Lesion } from "./lesion.js"
 import { orm } from "../shared/db/orm.js";
+import { Jugador } from "../jugador/jugadores.js";
+
+const em= orm.em
 function sanitizeLesionInput(req: Request, res: Response, next: NextFunction){
     req.body.sanitizedInput={    
         cdLesion: req.body.nombre,
@@ -17,14 +20,30 @@ function sanitizeLesionInput(req: Request, res: Response, next: NextFunction){
 }
 
 async function findAll(req:Request, res:Response) {
-    res.status(500).json({message: 'Not implemented'})
+   try {
+    const lesiones = await em.find(
+      Lesion,
+      {},
+      { populate: [] }
+    )
+    res.status(200).json({ message: 'found all characters', data: lesiones })
+  } catch (error: any) {
+    res.status(500).json({ message: error.message })
+  }
 }
+
 async function findOne(req:Request,res:Response) {
     res.status(500).json({message: 'Not implemented'})
 }  
 
 async function add(req:Request, res:Response) {
-  res.status(500).json({message: 'Not implemented'})
+   try {
+    const lesiones = em.create(Lesion, req.body.sanitizedInput)
+    await em.flush()
+    res.status(201).json({ message: 'Lesion creada', data: lesiones })
+  } catch (error: any) {
+    res.status(500).json({ message: error.message })
+  }
 }
 
 async function update (req:Request, res:Response) {

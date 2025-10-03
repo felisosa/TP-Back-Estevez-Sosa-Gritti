@@ -59,7 +59,15 @@ async function update (req:Request, res:Response) {
 
 
 async function remove(req:Request, res:Response){
-    res.status(500).json({message: 'Not implemented'})
-    }
+    try {
+    const id = Number.parseInt(req.params.id)
+    const tipoLesiones = em.getReference(tipoLesion, id)
+    await em.removeAndFlush(tipoLesiones)
+    res.status(200).send({ message: 'Tipo de lesion eliminada' })
+  } catch (error: any) {
+    res.status(500).json({ message: error.message })
+  }
+}
+    
 
 export { findAll, findOne, add, update, remove }

@@ -12,7 +12,7 @@ Content-Type:application/json
 { 
     "cdLesion": "A",
     "descLesion": "Desgarro en partido",
-    "jugador": 1,
+    "jugador": 2,
     "tipoLesion":5
 }
 

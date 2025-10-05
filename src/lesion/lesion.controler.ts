@@ -7,8 +7,10 @@ import { Jugador } from "../jugador/jugadores.js";
 const em= orm.em
 function sanitizeLesionInput(req: Request, res: Response, next: NextFunction){
     req.body.sanitizedInput={    
-        cdLesion: req.body.nombre,
-        descLesion: req.body.liga,
+        cdLesion: req.body.cdLesion,
+        descLesion: req.body.descLesion,
+        jugador: req.body.jugador,
+        tipoLesion: req.body.tipoLesion,
     }
 
     Object.keys(req.body.sanitizedInput).

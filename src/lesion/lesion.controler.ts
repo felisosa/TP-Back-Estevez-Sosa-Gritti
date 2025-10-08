@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express"
 //import { EquipoRepository } from "./equipo.repository.js"//
-import { Lesion } from "./lesion.js"
+import { Lesion } from "./lesion.entity.js"
 import { orm } from "../shared/db/orm.js";
-import { Jugador } from "../jugador/jugadores.js";
+import { Jugador } from "../jugador/jugador.entity.js";
 
 const em= orm.em
 function sanitizeLesionInput(req: Request, res: Response, next: NextFunction){
@@ -28,14 +28,24 @@ async function findAll(req:Request, res:Response) {
       {},
       { populate: [] }
     )
-    res.status(200).json({ message: 'found all characters', data: lesiones })
+    res.status(200).json({ message: 'Lesiones', data: lesiones })
   } catch (error: any) {
     res.status(500).json({ message: error.message })
   }
 }
 
-async function findOne(req:Request,res:Response) {
-    res.status(500).json({message: 'Not implemented'})
+async function findOne(req: Request, res: Response) {
+  try {
+    const id = Number.parseInt(req.params.id)
+    const lesiones = await em.findOneOrFail(
+      Lesion,
+      { id },
+      { populate: ['jugador', 'tipoLesion'] }
+    )
+    res.status(200).json({ message: 'found lesion', data: lesiones })
+  } catch (error: any) {
+    res.status(500).json({ message: error.message })
+  }
 }  
 
 async function add(req:Request, res:Response) {
@@ -49,12 +59,29 @@ async function add(req:Request, res:Response) {
 }
 
 async function update (req:Request, res:Response) {
-    res.status(500).json({message: 'Not implemented'})
+    try {
+    const id = Number.parseInt(req.params.id)
+    const lesionesToUpdate = await em.findOneOrFail(Lesion, { id })
+    em.assign(lesionesToUpdate, req.body.sanitizedInput)
+    await em.flush()
+    res
+      .status(200)
+      .json({ message: 'lesion actualizada', data: lesionesToUpdate })
+  } catch (error: any) {
+    res.status(500).json({ message: error.message })
+  }
 }
 
 
 async function remove(req:Request, res:Response){
-    res.status(500).json({message: 'Not implemented'})
+    try {
+        const id = Number.parseInt(req.params.id)
+        const lesion = em.getReference(Lesion, id)
+        await em.removeAndFlush(lesion)
+        res.status(200).send({ message: 'Lesion eliminada' })
+      } catch (error: any) {
+        res.status(500).json({ message: error.message })
+      }
     }
 
 export { sanitizeLesionInput, findAll, findOne, add, update, remove }

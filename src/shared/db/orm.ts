@@ -4,7 +4,6 @@ import { MySqlDriver } from '@mikro-orm/mysql';
 
 export const orm = await MikroORM.init({
   entities: ['dist/**/*.entity.js'],
-  entitiesTs: ['src/**/*.entity.ts'],
   dbName: 'TeamTrack',
   driver: MySqlDriver,
   clientUrl: 'mysql://root:Feli0901!@localhost:3306/TeamTrack',

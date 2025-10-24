@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express"
 //import { EquipoRepository } from "./equipo.repository.js"//
 import { Equipo } from "./equipos.js"
 import { orm } from "../shared/db/orm.js";
+
+const em= orm.em
 function sanitizeEquipoInput(req: Request, res: Response, next: NextFunction){
     req.body.sanitizedInput={    
         nombre: req.body.nombre,
@@ -19,7 +21,16 @@ function sanitizeEquipoInput(req: Request, res: Response, next: NextFunction){
 }
 
 async function findAll(req:Request, res:Response) {
-    res.status(500).json({message: 'Not implemented'})
+    try {
+    const equipos = await em.find(
+      Equipo,
+      {},
+      { populate: [] }
+    )
+    res.status(200).json({ message: 'Equipos', data: equipos })
+  } catch (error: any) {
+    res.status(500).json({ message: error.message })
+  }
 }
 async function findOne(req:Request,res:Response) {
     res.status(500).json({message: 'Not implemented'})

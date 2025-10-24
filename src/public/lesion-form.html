@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Crear Lesión</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;max-width:800px;margin:2rem auto;padding:0 1rem;}
+    form{display:grid;gap:1rem;}
+    label{display:grid;gap:.25rem}
+    input,select,button,textarea{padding:.6rem;border:1px solid #ccc;border-radius:8px;font-size:1rem}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .error{color:#b00020}
+    .ok{color:#0a7a12}
+    pre{background:#f7f7f7;padding:.75rem;border-radius:8px;overflow:auto}
+  </style>
+</head>
+<body>
+  <h1>Crear Lesión</h1>
+  <p>Esta UI refleja los campos del entity Lesion: cdLesion, descLesion, jugador, tipoLesion.</p>
+
+  <form id="lesionForm">
+    <div class="row">
+      <label>
+        Código de Lesión (único)
+        <input id="cdLesion" name="cdLesion" required />
+      </label>
+      <label>
+        Descripción
+        <input id="descLesion" name="descLesion" required />
+      </label>
+    </div>
+
+    <div class="row">
+      <label>
+        Jugador
+        <select id="jugador" name="jugador" required>
+          <option value="">Seleccione un jugador…</option>
+        </select>
+      </label>
+      <label>
+        Tipo de lesión
+        <select id="tipoLesion" name="tipoLesion" required>
+          <option value="">Seleccione un tipo…</option>
+        </select>
+      </label>
+    </div>
+
+    <button type="submit">Crear</button>
+  </form>
+
+  <p id="msg" class="error" hidden></p>
+  <pre id="out" hidden></pre>
+
+  <script>
+    const apiBase = location.origin.includes('localhost') ? location.origin : 'http://localhost:3000';
+
+    async function loadOptions() {
+      const [jugadoresRes, tiposRes] = await Promise.all([
+        fetch(apiBase + '/api/jugadores').then(r => r.json()),
+        fetch(apiBase + '/api/tipoLesiones').then(r => r.json()),
+      ]);
+
+      const jugadorSel = document.getElementById('jugador');
+      (jugadoresRes.data || []).forEach(j => {
+        const opt = document.createElement('option');
+        opt.value = j.id;
+        opt.textContent = `${j.nombre} ${j.apellido} (${j.dni})`;
+        jugadorSel.appendChild(opt);
+      });
+
+      const tipoSel = document.getElementById('tipoLesion');
+      (tiposRes.data || []).forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t.id;
+        opt.textContent = t.desc || t.descripcion || t.nombre || `Tipo ${t.id}`;
+        tipoSel.appendChild(opt);
+      });
+    }
+
+    async function onSubmit(e){
+      e.preventDefault();
+      const msg = document.getElementById('msg');
+      const out = document.getElementById('out');
+      msg.hidden = true; out.hidden = true; msg.textContent = ''; out.textContent = '';
+
+      const payload = {
+        cdLesion: document.getElementById('cdLesion').value.trim(),
+        descLesion: document.getElementById('descLesion').value.trim(),
+        jugador: Number(document.getElementById('jugador').value),
+        tipoLesion: Number(document.getElementById('tipoLesion').value),
+      };
+
+      try {
+        const res = await fetch(apiBase + '/api/lesiones', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if(!res.ok){ throw new Error(data.message || 'Error en el servidor'); }
+        out.hidden = false; out.textContent = JSON.stringify(data, null, 2);
+      } catch (err){
+        msg.hidden = false; msg.textContent = err.message || String(err);
+      }
+    }
+
+    document.getElementById('lesionForm').addEventListener('submit', onSubmit);
+    loadOptions().catch(e => console.error(e));
+  </script>
+</body>
+</html>

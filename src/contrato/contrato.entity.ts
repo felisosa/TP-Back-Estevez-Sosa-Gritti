@@ -11,7 +11,7 @@ export class Contrato extends BaseEntity {
     @Property()
     fechaFin!: string
 
-    @Property()
+    @Property({nullable: true})
     fechaRealFin!: string
 
     @ManyToOne(()=>Dt, {cascade:[Cascade.ALL]},)

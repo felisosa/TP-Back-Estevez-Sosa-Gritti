@@ -3,8 +3,7 @@ GET http://localhost:3000/api/jugadores
 
 
 ### obtener un equipo
-GET http://localhost:3000/api/jugadores/a02b91bc-3769-4221-beb1-d7a3aeba7dad
-
+GET http://localhost:3000/api/jugadores/2
 
 ### crear equipo  
 POST http://localhost:3000/api/jugadores
@@ -16,12 +15,13 @@ Content-Type:application/json
     "dni":"40840234",
     "edad": "29",
     "numero":"20",
-    "posiciono":"dc"
-   
+    "posicion":"dc",
+    "dts": 4,
+    "estadisticas": 2025
 }
 
 ### modificar un equipo
-PUT http://localhost:3000/api/jugadores/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+PUT http://localhost:3000/api/jugadores/3
 Content-Type:application/json
 
 {  
@@ -34,7 +34,7 @@ Content-Type:application/json
 
 }
 #### modificar
-PATCH  http://localhost:3000/api/jugadores/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+PATCH  http://localhost:3000/api/jugadores/3
 Content-Type:application/json
 
 {  
@@ -43,4 +43,4 @@ Content-Type:application/json
 }
 
 ### eliminar equipo
-DELETE http://localhost:3000/api/jugadores/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+DELETE http://localhost:3000/api/jugadores/3

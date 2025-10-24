@@ -1,0 +1,51 @@
+### obtener estadisticas de jugadores
+GET http://localhost:3000/api/estadisticasJugador
+
+
+
+
+### Crear estadistica de jugador
+### @name createEstadisticasJugador
+POST http://localhost:3000/api/estadisticasJugador
+Content-Type: application/json
+
+{
+    "temporada": 2025,
+    "goles": 7,
+    "asistencias": 4,
+    "amarillas": 2,
+    "rojas": 1,
+    "jugador": 1
+}
+
+### ID
+//@id = {{createEstadisticasJugador.response.body.data.id}}
+
+### Obtener estadistica de jugador por id
+GET http://localhost:3000/api/estadisticasJugador/2
+
+
+### put
+PUT http://localhost:3000/api/estadisticasJugador/2
+Content-Type:application/json
+
+{  
+    "temporada": 2025,
+    "goles": 8,
+    "asistencias": 9,
+    "amarillas": 10,
+    "rojas": 5,
+    "jugador": 2
+}
+#### modificar
+PATCH  http://localhost:3000/api/estadisticasJugador/2
+Content-Type:application/json
+
+{  
+    "amarillas": 5,
+    "rojas": 1,
+    "goles": 12
+}
+
+### eliminar tipo lesion
+DELETE http://localhost:3000/api/estadisticasJugador/3

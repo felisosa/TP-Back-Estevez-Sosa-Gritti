@@ -1,4 +1,4 @@
-import {Entity, OneToMany, Property, Cascade, Collection} from '@mikro-orm/core'
+import {Entity, OneToMany, Property, Cascade, Collection, ManyToMany, ManyToOne, Rel} from '@mikro-orm/core'
 import { BaseEntity } from "../shared/db/baseEntity.js"; // Importacion corregida
 /*import { equipo } from "./equipo.entity.js" */
 import { Partido } from "../partido/partido.entity.js" 
@@ -9,13 +9,13 @@ export class Equipo extends BaseEntity {
     @Property({nullable: false, unique: true})
     nombre!: string
 
-    @Property()
+    @Property({nullable: false})
     categoria!: string
 
-    @Property()
+    @Property({nullable: false})
     liga!: string
 
-    @Property()
+    @Property({nullable: false})
     pais!: string
 
     @OneToMany(()=>Partido, partido => partido.equipo, {cascade:[Cascade.ALL]})

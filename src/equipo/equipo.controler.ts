@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from "express"
-//import { EquipoRepository } from "./equipo.repository.js"//
-import { Equipo } from "./equipos.js"
 import { orm } from "../shared/db/orm.js";
-
+import { Equipo } from "./equipo.entity.js"
 const em= orm.em
+
 function sanitizeEquipoInput(req: Request, res: Response, next: NextFunction){
     req.body.sanitizedInput={    
         nombre: req.body.nombre,
@@ -20,33 +19,70 @@ function sanitizeEquipoInput(req: Request, res: Response, next: NextFunction){
 
 }
 
-async function findAll(req:Request, res:Response) {
+async function findAll(req:Request, res:Response): Promise<void> {
     try {
-    const equipos = await em.find(
-      Equipo,
-      {},
-      { populate: [] }
-    )
-    res.status(200).json({ message: 'Equipos', data: equipos })
-  } catch (error: any) {
-    res.status(500).json({ message: error.message })
-  }
+        const equipos = await em.find(Equipo, {})
+        res.status(200).json({message: 'Equipos', data: equipos})
+    } catch (error:any) {
+        res.status(500).json({message: error.message})
+    }
 }
-async function findOne(req:Request,res:Response) {
-    res.status(500).json({message: 'Not implemented'})
+async function findOne(req:Request,res:Response): Promise<void> {
+   try {
+           const id = Number.parseInt(req.params.id)
+           const equipo = await em.findOneOrFail(Equipo, {id})
+           res.status(200).json({message: 'Equipo encontrado', data: equipo})
+       } catch (error:any) {
+           if (error.name==='NotFoundError'){
+               res.status(404).json({message: 'Equipo no encontrado'});
+               return;
+           }
+           res.status(500).json({message: 'Error interno del servidor', error: error.message});
+       }
 }  
 
-async function add(req:Request, res:Response) {
-  res.status(500).json({message: 'Not implemented'})
+async function add(req:Request, res:Response): Promise<void> {
+  try {
+          const payload = req.body.sanitizedInput ?? req.body;
+          const equipo = em.create(Equipo, payload)
+          await em.flush()
+          res.status(201).json({message: 'Equipo creado', data: equipo})
+      } catch (error:any) {
+          res.status(500).json({message: 'Error interno del servidor', error: error.message})
+      }
 }
 
-async function update (req:Request, res:Response) {
-    res.status(500).json({message: 'Not implemented'})
+async function update (req:Request, res:Response): Promise<void> {
+    try {
+            const id = Number.parseInt(req.params.id);
+            const equipo = await em.findOne(Equipo, { id });
+            if (!equipo) {
+                res.status(404).json({ message: 'Equipo no encontrado' });
+                return;
+            }
+            const payload = req.body.sanitizedInput ?? req.body;
+            em.assign(equipo, payload);
+            await em.flush();
+            res.status(200).json({ message: 'Equipo actualizado', data: equipo });
+        } catch (error:any) {
+            res.status(500).json({ message: 'Error interno del servidor', error: error.message });
+        }
 }
 
 
-async function remove(req:Request, res:Response){
-    res.status(500).json({message: 'Not implemented'})
+async function remove(req:Request, res:Response): Promise<void> {
+     try {
+            const id = Number.parseInt(req.params.id)
+            const equipo = await em.findOne(Equipo, { id })
+            if (!equipo) {
+                res.status(404).json({ message: 'Equipo no encontrado' })
+                return;
+            }
+            await em.removeAndFlush(equipo)
+            res.status(200).json({ message: 'Equipo eliminado' })
+        } catch (error:any) {
+            res.status(500).json({ message: 'Error interno del servidor', error: error.message });
+        }
     }
 
 export { sanitizeEquipoInput, findAll, findOne, add, update, remove }

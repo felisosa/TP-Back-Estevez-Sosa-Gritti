@@ -7,8 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "build:css": "sass src/styles/global.scss public/css/global.css --no-source-map",
-    "watch:css": "sass --watch src/styles:public/css --no-source-map"
+  "build:css": "sass src/styles:../public/css --no-source-map",
+  "watch:css": "sass --watch src/styles:../public/css --no-source-map"
   },
   "dependencies": {
     "react": "18.3.1",

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './styles/lesion-form.scss'
+import '../styles/lesion-form.scss'
 
 type Jugador = { id: number; nombre: string; apellido: string; dni: string }
 

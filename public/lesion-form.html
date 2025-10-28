@@ -4,11 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Crear Lesión</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/lesion-form.css">
   <style>
     body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;max-width:800px;margin:2rem auto;padding:0 1rem;}
     form{display:grid;gap:1rem;}
     label{display:grid;gap:.25rem}
-    input,select,button,textarea{padding:.6rem;border:1px solid #ccc;border-radius:8px;font-size:1rem}
+  input,select,textarea{padding:.6rem;border:1px solid #ccc;border-radius:8px;font-size:1rem}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
     .error{color:#b00020}
     .ok{color:#0a7a12}
@@ -19,38 +21,38 @@
   <h1>Crear Lesión</h1>
   <p>Esta UI refleja los campos del entity Lesion: cdLesion, descLesion, jugador, tipoLesion.</p>
 
-  <form id="lesionForm">
-    <div class="row">
-      <label>
-        Código de Lesión (único)
-        <input id="cdLesion" name="cdLesion" required />
+  <form id="lesionForm" class="form">
+    <div class="grid grid-2">
+      <label class="form__label">
+        <span class="label__title">Código de Lesión (único)</span>
+        <input id="cdLesion" name="cdLesion" class="input" required />
       </label>
-      <label>
-        Descripción
-        <input id="descLesion" name="descLesion" required />
+      <label class="form__label">
+        <span class="label__title">Descripción</span>
+        <input id="descLesion" name="descLesion" class="input" required />
       </label>
     </div>
 
-    <div class="row">
-      <label>
-        Jugador
-        <select id="jugador" name="jugador" required>
+    <div class="grid grid-2">
+      <label class="form__label">
+        <span class="label__title">Jugador</span>
+        <select id="jugador" name="jugador" class="input" required>
           <option value="">Seleccione un jugador…</option>
         </select>
       </label>
-      <label>
-        Tipo de lesión
-        <select id="tipoLesion" name="tipoLesion" required>
+      <label class="form__label">
+        <span class="label__title">Tipo de lesión</span>
+        <select id="tipoLesion" name="tipoLesion" class="input" required>
           <option value="">Seleccione un tipo…</option>
         </select>
       </label>
     </div>
 
-    <button type="submit">Crear</button>
+    <button class="btn btn--primary" type="submit">Crear</button>
   </form>
 
-  <p id="msg" class="error" hidden></p>
-  <pre id="out" hidden></pre>
+  <p id="msg" class="form__error" hidden></p>
+  <pre id="out" class="form__output" hidden></pre>
 
   <script>
     const apiBase = location.origin.includes('localhost') ? location.origin : 'http://localhost:3000';

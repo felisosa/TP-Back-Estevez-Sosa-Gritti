@@ -4,11 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Crear Tipo de Lesión</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/tipo-lesion-form.css">
   <style>
     body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;max-width:800px;margin:2rem auto;padding:0 1rem;}
     form{display:grid;gap:1rem;}
     label{display:grid;gap:.25rem}
-    input,select,button,textarea{padding:.6rem;border:1px solid #ccc;border-radius:8px;font-size:1rem}
+  input,select,textarea{padding:.6rem;border:1px solid #ccc;border-radius:8px;font-size:1rem}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
     .error{color:#b00020}
     .ok{color:#0a7a12}
@@ -19,34 +21,34 @@
   <h1>Crear Tipo de Lesión</h1>
   <p>Campos según entity tipoLesion: cdTipoLesion, descTipoLesion, diasRecuperacion, tratamiento.</p>
 
-  <form id="tipoLesionForm">
-    <div class="row">
-      <label>
-        Código de Tipo (único)
-        <input id="cdTipoLesion" name="cdTipoLesion" required />
+  <form id="tipoLesionForm" class="form">
+    <div class="grid grid-2">
+      <label class="form__label">
+        <span class="label__title">Código de Tipo (único)</span>
+        <input id="cdTipoLesion" name="cdTipoLesion" class="input" required />
       </label>
-      <label>
-        Descripción
-        <input id="descTipoLesion" name="descTipoLesion" required />
-      </label>
-    </div>
-
-    <div class="row">
-      <label>
-        Días de recuperación
-        <input id="diasRecuperacion" name="diasRecuperacion" required />
-      </label>
-      <label>
-        Tratamiento
-        <input id="tratamiento" name="tratamiento" required />
+      <label class="form__label">
+        <span class="label__title">Descripción</span>
+        <input id="descTipoLesion" name="descTipoLesion" class="input" required />
       </label>
     </div>
 
-    <button type="submit">Crear</button>
+    <div class="grid grid-2">
+      <label class="form__label">
+        <span class="label__title">Días de recuperación</span>
+        <input id="diasRecuperacion" name="diasRecuperacion" class="input" required />
+      </label>
+      <label class="form__label">
+        <span class="label__title">Tratamiento</span>
+        <input id="tratamiento" name="tratamiento" class="input" required />
+      </label>
+    </div>
+
+    <button class="btn btn--primary" type="submit">Crear</button>
   </form>
 
-  <p id="msg" class="error" hidden></p>
-  <pre id="out" hidden></pre>
+  <p id="msg" class="form__error" hidden></p>
+  <pre id="out" class="form__output" hidden></pre>
 
   <script>
     const apiBase = location.origin.includes('localhost') ? location.origin : 'http://localhost:3000';

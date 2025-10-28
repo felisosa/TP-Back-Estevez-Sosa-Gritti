@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import '../styles/tipo-lesion-form.scss'
 
 export default function TipoLesionForm(){
   const [msg, setMsg] = useState<string>('')
@@ -32,36 +33,36 @@ export default function TipoLesionForm(){
   }
 
   return (
-    <div style={{maxWidth: 800, margin: '1rem auto'}}>
-      <h2>Nuevo Tipo de Lesión</h2>
-      <form onSubmit={onSubmit} style={{display:'grid', gap:'1rem'}}>
-        <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1rem'}}>
-          <label>
-            Código de Tipo
-            <input name="cdTipoLesion" required />
+    <div className="container">
+      <h2 className="page-title">Nuevo Tipo de Lesión</h2>
+      <form onSubmit={onSubmit} className="form">
+        <div className="grid grid-2">
+          <label className="form__label">
+            <span className="label__title">Código de Tipo</span>
+            <input className="input" name="cdTipoLesion" required />
           </label>
-          <label>
-            Descripción
-            <input name="descTipoLesion" required />
-          </label>
-        </div>
-
-        <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1rem'}}>
-          <label>
-            Días de recuperación
-            <input name="diasRecuperacion" required />
-          </label>
-          <label>
-            Tratamiento
-            <input name="tratamiento" required />
+          <label className="form__label">
+            <span className="label__title">Descripción</span>
+            <input className="input" name="descTipoLesion" required />
           </label>
         </div>
 
-        <button type="submit">Crear</button>
+        <div className="grid grid-2">
+          <label className="form__label">
+            <span className="label__title">Días de recuperación</span>
+            <input className="input" name="diasRecuperacion" required />
+          </label>
+          <label className="form__label">
+            <span className="label__title">Tratamiento</span>
+            <input className="input" name="tratamiento" required />
+          </label>
+        </div>
+
+        <button className="btn btn--primary" type="submit">Crear</button>
       </form>
 
-      {msg && <p style={{color:'#b00020'}}>{msg}</p>}
-      {out && <pre style={{background:'#f7f7f7', padding:'.75rem', borderRadius:8}}>{JSON.stringify(out, null, 2)}</pre>}
+      {msg && <p className="form__error">{msg}</p>}
+      {out && <pre className="form__output">{JSON.stringify(out, null, 2)}</pre>}
     </div>
   )
 }

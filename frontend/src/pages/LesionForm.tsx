@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import './styles/lesion-form.scss'
 
 type Jugador = { id: number; nombre: string; apellido: string; dni: string }
 
@@ -48,33 +49,33 @@ export default function LesionForm(){
   }
 
   return (
-    <div style={{maxWidth: 800, margin: '1rem auto'}}>
-      <h2>Nueva Lesión</h2>
-      <form onSubmit={onSubmit} style={{display:'grid', gap:'1rem'}}>
-        <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1rem'}}>
-          <label>
-            Código de Lesión
-            <input name="cdLesion" required />
+    <div className="container">
+      <h2 className="page-title">Nueva Lesión</h2>
+      <form onSubmit={onSubmit} className="form">
+        <div className="grid grid-2">
+          <label className="form__label">
+            <span className="label__title">Código de Lesión</span>
+            <input className="input" name="cdLesion" required />
           </label>
-          <label>
-            Descripción
-            <input name="descLesion" required />
+          <label className="form__label">
+            <span className="label__title">Descripción</span>
+            <input className="input" name="descLesion" required />
           </label>
         </div>
 
-        <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1rem'}}>
-          <label>
-            Jugador
-            <select name="jugador" required defaultValue="">
+        <div className="grid grid-2">
+          <label className="form__label">
+            <span className="label__title">Jugador</span>
+            <select className="input" name="jugador" required defaultValue="">
               <option value="" disabled>Seleccione un jugador…</option>
               {jugadores.map(j => (
                 <option key={j.id} value={j.id}>{j.nombre} {j.apellido} ({j.dni})</option>
               ))}
             </select>
           </label>
-          <label>
-            Tipo de lesión
-            <select name="tipoLesion" required defaultValue="">
+          <label className="form__label">
+            <span className="label__title">Tipo de lesión</span>
+            <select className="input" name="tipoLesion" required defaultValue="">
               <option value="" disabled>Seleccione un tipo…</option>
               {tipos.map(t => (
                 <option key={t.id} value={t.id}>{t.cdTipoLesion || `Tipo ${t.id}`}</option>
@@ -83,11 +84,11 @@ export default function LesionForm(){
           </label>
         </div>
 
-        <button type="submit">Crear</button>
+        <button className="btn btn--primary" type="submit">Crear</button>
       </form>
 
-      {msg && <p style={{color:'#b00020'}}>{msg}</p>}
-      {out && <pre style={{background:'#f7f7f7', padding:'.75rem', borderRadius:8}}>{JSON.stringify(out, null, 2)}</pre>}
+      {msg && <p className="form__error">{msg}</p>}
+      {out && <pre className="form__output">{JSON.stringify(out, null, 2)}</pre>}
     </div>
   )
 }

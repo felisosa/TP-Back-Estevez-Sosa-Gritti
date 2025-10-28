@@ -3,16 +3,19 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider, Link } from 'react-router-dom'
 import LesionForm from './pages/LesionForm'
 import TipoLesionForm from './pages/TipoLesionForm'
+import './styles/global.scss'
 
 function Layout(){
   return (
-    <div style={{fontFamily:'system-ui,Segoe UI,Roboto,Arial,sans-serif', padding:'1rem'}}>
-      <h1>TeamTrack</h1>
-      <nav style={{display:'flex', gap:'1rem'}}>
-        <Link to="/lesiones/nueva">Nueva Lesión</Link>
-        <Link to="/tipos-lesion/nuevo">Nuevo Tipo de Lesión</Link>
-      </nav>
-    </div>
+    <header className="app-header">
+      <div className="app-header__inner">
+        <h1 className="brand">TeamTrack</h1>
+        <nav className="nav">
+          <Link to="/lesiones/nueva" className="nav__link">Nueva Lesión</Link>
+          <Link to="/tipos-lesion/nuevo" className="nav__link">Nuevo Tipo de Lesión</Link>
+        </nav>
+      </div>
+    </header>
   )
 }
 

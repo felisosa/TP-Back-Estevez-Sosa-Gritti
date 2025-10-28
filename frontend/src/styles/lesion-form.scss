@@ -1,0 +1,26 @@
+@import './_variables.scss';
+
+.form {
+  display: grid;
+  gap: 1rem;
+  background: rgba(255,255,255,0.02);
+}
+
+.grid { display: grid; gap: 1rem; }
+.grid-2 { grid-template-columns: 1fr 1fr; }
+
+.form__label { display: block; }
+.label__title { display:block; font-size: .85rem; color: $muted; margin-bottom: .35rem; }
+.input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: $radius-sm;
+  border: 1px solid rgba(15,23,42,0.06);
+  background: $card;
+  outline: none;
+  transition: box-shadow .12s ease, border-color .12s ease;
+}
+.input:focus { box-shadow: 0 6px 16px rgba($blue-500, 0.08); border-color: $blue-500; }
+
+.form__error { color: $danger; margin-top: .5rem; }
+.form__output { background: #fff; padding: .75rem; border-radius: $radius-sm; margin-top: .75rem; color: $black-900; }

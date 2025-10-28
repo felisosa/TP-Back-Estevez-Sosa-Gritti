@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 import { orm, syncSchema } from "./shared/db/orm.js";
 import Express, { NextFunction, Request, Response } from "express"
-import cors from 'cors'
+import cors from 'cors' 
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { equipoRouter } from "./equipo/equipo.routes.js";

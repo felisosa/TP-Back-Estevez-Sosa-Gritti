@@ -88,7 +88,7 @@ export default function TipoLesionForm(){
         <div style={{display:'flex',gap:8}}>
           <button className="btn btn--primary" type="submit">{editingId ? 'Guardar' : 'Crear'}</button>
           {editingId && <button type="button" className="btn" onClick={doDelete}>Eliminar</button>}
-          <Link to="/tipos-lesion" className="btn">Volver al listado</Link>
+          <Link to="/tipos-lesion" className="btn">Listado</Link>
         </div>
       </form>
 

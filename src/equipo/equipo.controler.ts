@@ -21,7 +21,13 @@ function sanitizeEquipoInput(req: Request, res: Response, next: NextFunction){
 
 async function findAll(req:Request, res:Response): Promise<void> {
     try {
-        const equipos = await em.find(Equipo, {})
+        // Allow optional filtering by categoria via query string: /api/equipos?categoria=Primera
+        const { categoria } = req.query;
+        const where: any = {};
+        if (categoria) {
+            where.categoria = String(categoria);
+        }
+        const equipos = await em.find(Equipo, where)
         res.status(200).json({message: 'Equipos', data: equipos})
     } catch (error:any) {
         res.status(500).json({message: error.message})

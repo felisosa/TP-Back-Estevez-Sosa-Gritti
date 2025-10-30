@@ -21,7 +21,14 @@ function sanitizeJugadorInput(req: Request, _res: Response, next: NextFunction) 
 
 async function findAll(req:Request, res:Response): Promise<void> {
     try {
-        const jugadores = await em.find(Jugador, {})
+        // Allow optional filtering by posicion via query string: /api/jugadores?posicion=Delantero
+        const { posicion } = req.query;
+        const where: any = {};
+        if (posicion) {
+            // use exact match; caller can provide the exact posicion value
+            where.posicion = String(posicion);
+        }
+        const jugadores = await em.find(Jugador, where)
         res.status(200).json({message: 'Jugadores', data: jugadores})
     } catch (error:any) {
         res.status(500).json({message: error.message})

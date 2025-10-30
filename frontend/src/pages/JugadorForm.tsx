@@ -92,7 +92,7 @@ export default function JugadorForm(){
         <div style={{display:'flex',gap:8}}>
           <button className="btn btn--primary" type="submit">{editingId ? 'Guardar' : 'Crear'}</button>
           {editingId && <button type="button" className="btn" onClick={doDelete}>Eliminar</button>}
-          <Link to="/jugadores" className="btn">Volver al listado</Link>
+          <Link to="/jugadores" className="btn">Listado</Link>
         </div>
       </form>
 

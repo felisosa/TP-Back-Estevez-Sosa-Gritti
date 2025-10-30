@@ -25,6 +25,7 @@ export default function LesionList(){
         <Link to="/lesiones/nueva" className="btn btn--primary">Nueva Lesión</Link>
       </div>
       {msg && <p className="form__error">{msg}</p>}
+      <div className="table-wrapper">
       <table className="table">
         <thead>
           <tr><th>ID</th><th>Código</th><th>Descripción</th><th>Acciones</th></tr>
@@ -43,6 +44,7 @@ export default function LesionList(){
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   )
 }

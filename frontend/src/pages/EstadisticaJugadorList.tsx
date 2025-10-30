@@ -16,11 +16,12 @@ export default function EstadisticaJugadorList(){
         <Link to="/estadisticas-jugador/nuevo" className="btn btn--primary">Nueva Estadística</Link>
       </div>
       {msg && <p className="form__error">{msg}</p>}
+      <div className="table-wrapper">
       <table className="table">
-        <thead><tr><th>ID</th><th>Temporada</th><th>Goles</th><th>Jugador</th><th>Acciones</th></tr></thead>
+        <thead><tr><th>ID</th><th>Temporada</th><th>Goles</th><th>Asistencias</th><th>Jugador</th><th>Acciones</th></tr></thead>
         <tbody>
           {items.map(it=> (
-            <tr key={it.id}><td>{it.id}</td><td>{it.temporada}</td><td>{it.goles}</td><td>{it.jugador?.id || it.jugador}</td>
+            <tr key={it.id}><td>{it.id}</td><td>{it.temporada}</td><td>{it.goles}</td><td>{it.asistencias ?? ''}</td><td>{it.jugador?.id || it.jugador}</td>
               <td>
                 <Link to={`/estadisticas-jugador/editar/${it.id}`} className="nav__link">Edit</Link>
                 <button className="btn" onClick={()=>doDelete(it.id)} style={{marginLeft:8}}>Eliminar</button>
@@ -29,6 +30,7 @@ export default function EstadisticaJugadorList(){
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   )
 }

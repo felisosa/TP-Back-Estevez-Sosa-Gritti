@@ -14,14 +14,14 @@ export class Contrato extends BaseEntity {
     @Property({nullable: true})
     fechaRealFin!: string
 
-    @ManyToOne(()=>Dt, {cascade:[Cascade.ALL]},)
-    dts = new Collection<Dt>(this); // Declaración de la propiedad "partidos"
+    @ManyToOne(()=>Dt)
+    dts!: Rel<Dt>;
 
     @ManyToOne(()=> Jugador)
     jugador!: Rel<Jugador>;
 
-    @ManyToOne(()=> Equipo, {cascade:[Cascade.ALL]})
-    equipos = new Collection<Equipo>(this); // Declaración de la propiedad "contratos"
+    @ManyToOne(()=> Equipo)
+    equipos!: Rel<Equipo>;
      
 
 }

@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express"
 import { Lesion } from "./lesion.entity.js"
 import { orm } from "../shared/db/orm.js";
 import { Jugador } from "../jugador/jugador.entity.js";
+import { tipoLesion } from "./tipoLesion.entity.js";
 
 const em= orm.em
 function sanitizeLesionInput(req: Request, res: Response, next: NextFunction){
@@ -50,7 +51,17 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req:Request, res:Response) {
    try {
-    const lesiones = em.create(Lesion, req.body.sanitizedInput)
+    const input = { ...req.body.sanitizedInput }
+
+    // convert numeric relation ids into references
+    if (input.jugador && typeof input.jugador === 'number') {
+      input.jugador = em.getReference(Jugador, Number(input.jugador))
+    }
+    if (input.tipoLesion && typeof input.tipoLesion === 'number') {
+      input.tipoLesion = em.getReference(tipoLesion, Number(input.tipoLesion))
+    }
+
+    const lesiones = em.create(Lesion, input)
     await em.flush()
     res.status(201).json({ message: 'Lesion creada', data: lesiones })
   } catch (error: any) {
@@ -62,7 +73,14 @@ async function update (req:Request, res:Response) {
     try {
     const id = Number.parseInt(req.params.id)
     const lesionesToUpdate = await em.findOneOrFail(Lesion, { id })
-    em.assign(lesionesToUpdate, req.body.sanitizedInput)
+    const input = { ...req.body.sanitizedInput }
+    if (input.jugador && typeof input.jugador === 'number') {
+      input.jugador = em.getReference(Jugador, Number(input.jugador))
+    }
+    if (input.tipoLesion && typeof input.tipoLesion === 'number') {
+      input.tipoLesion = em.getReference(tipoLesion, Number(input.tipoLesion))
+    }
+    em.assign(lesionesToUpdate, input)
     await em.flush()
     res
       .status(200)

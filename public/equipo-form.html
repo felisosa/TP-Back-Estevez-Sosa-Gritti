@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <title>Equipo</title>
+   <link rel="icon" href="/img/teamtrack-logo-sm.png" />
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/equipo-form.css">
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;max-width:800px;margin:2rem auto;padding:0 1rem;}
+  </style>
+</head>
+<body>
+  <h1>Crear Equipo</h1>
+  <form id="equipoForm" class="form">
+    <div class="grid grid-2">
+      <label class="form__label">
+        <span class="label__title">Nombre</span>
+        <input id="nombre" name="nombre" class="input" required />
+      </label>
+      <label class="form__label">
+        <span class="label__title">Liga</span>
+        <input id="liga" name="liga" class="input" required />
+      </label>
+    </div>
+    <div class="grid grid-2">
+      <label class="form__label">
+        <span class="label__title">País</span>
+        <input id="pais" name="pais" class="input" required />
+      </label>
+      <label class="form__label">
+        <span class="label__title">Categoría</span>
+        <input id="categoria" name="categoria" class="input" required />
+      </label>
+    </div>
+    <button class="btn btn--primary" type="submit">Crear</button>
+  </form>
+
+  <p id="msg" class="form__error" hidden></p>
+  <pre id="out" class="form__output" hidden></pre>
+
+  <script>
+    const apiBase = location.origin.includes('localhost') ? location.origin : 'http://localhost:3000';
+    document.getElementById('equipoForm').addEventListener('submit', async function(e){
+      e.preventDefault();
+      const msg = document.getElementById('msg'); const out = document.getElementById('out');
+      msg.hidden = true; out.hidden = true; msg.textContent = ''; out.textContent = '';
+      const payload = {
+        nombre: document.getElementById('nombre').value.trim(),
+        liga: document.getElementById('liga').value.trim(),
+        pais: document.getElementById('pais').value.trim(),
+        categoria: document.getElementById('categoria').value.trim(),
+      };
+      try{
+        const res = await fetch(apiBase + '/api/equipos',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        const data = await res.json(); if(!res.ok) throw new Error(data.message||'Error'); out.hidden=false; out.textContent = JSON.stringify(data,null,2);
+      }catch(err){ msg.hidden=false; msg.textContent = err.message || String(err)}
+    })
+  </script>
+</body>
+</html>

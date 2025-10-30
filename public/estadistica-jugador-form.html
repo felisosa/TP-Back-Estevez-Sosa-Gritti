@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <title>Estadistica Jugador</title>
+   <link rel="icon" href="/img/teamtrack-logo-sm.png" />
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/estadistica-jugador-form.css">
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;max-width:800px;margin:2rem auto;padding:0 1rem;}
+  </style>
+</head>
+<body>
+  <h1>Crear Estadística de Jugador</h1>
+  <form id="estadisticaForm" class="form">
+    <div class="grid grid-2">
+      <label class="form__label">
+        <span class="label__title">Temporada</span>
+        <input id="temporada" name="temporada" class="input" required />
+      </label>
+      <label class="form__label">
+        <span class="label__title">Goles</span>
+        <input id="goles" name="goles" class="input" required />
+      </label>
+    </div>
+    <div class="grid grid-2">
+      <label class="form__label">
+        <span class="label__title">Asistencias</span>
+        <input id="asistencias" name="asistencias" class="input" required />
+      </label>
+      <label class="form__label">
+        <span class="label__title">Amarillas</span>
+        <input id="amarillas" name="amarillas" class="input" required />
+      </label>
+    </div>
+    <div class="grid grid-2">
+      <label class="form__label">
+        <span class="label__title">Rojas</span>
+        <input id="rojas" name="rojas" class="input" required />
+      </label>
+      <label class="form__label">
+        <span class="label__title">Jugador</span>
+        <select id="jugador" name="jugador" class="input" required>
+          <option value="">Seleccione un jugador…</option>
+        </select>
+      </label>
+    </div>
+    <button class="btn btn--primary" type="submit">Crear</button>
+  </form>
+
+  <p id="msg" class="form__error" hidden></p>
+  <pre id="out" class="form__output" hidden></pre>
+
+  <script>
+    const apiBase = location.origin.includes('localhost') ? location.origin : 'http://localhost:3000';
+    async function loadJugadores(){
+      const res = await fetch(apiBase + '/api/jugadores');
+      const data = await res.json();
+      const sel = document.getElementById('jugador');
+      (data.data || []).forEach(j=>{ const opt = document.createElement('option'); opt.value = j.id; opt.textContent = `${j.nombre} ${j.apellido} (${j.dni})`; sel.appendChild(opt) })
+    }
+    document.getElementById('estadisticaForm').addEventListener('submit', async function(e){
+      e.preventDefault();
+      const msg = document.getElementById('msg'); const out = document.getElementById('out');
+      msg.hidden = true; out.hidden = true; msg.textContent = ''; out.textContent = '';
+      const payload = {
+        temporada: Number(document.getElementById('temporada').value),
+        goles: Number(document.getElementById('goles').value),
+        asistencias: Number(document.getElementById('asistencias').value),
+        amarillas: Number(document.getElementById('amarillas').value),
+        rojas: Number(document.getElementById('rojas').value),
+        jugador: Number(document.getElementById('jugador').value),
+      };
+      try{
+        const res = await fetch(apiBase + '/api/estadisticasJugador',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        const data = await res.json(); if(!res.ok) throw new Error(data.message||'Error'); out.hidden=false; out.textContent = JSON.stringify(data,null,2);
+      }catch(err){ msg.hidden=false; msg.textContent = err.message || String(err)}
+    })
+    loadJugadores().catch(e=>console.error(e))
+  </script>
+</body>
+</html>

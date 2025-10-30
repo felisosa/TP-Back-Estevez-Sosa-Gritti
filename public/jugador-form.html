@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <title>Crear Jugador</title>
+   <link rel="icon" href="/img/teamtrack-logo-sm.png" />
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/jugador-form.css">
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;max-width:800px;margin:2rem auto;padding:0 1rem;}
+  </style>
+</head>
+<body>
+  <h1>Crear Jugador</h1>
+  <form id="jugadorForm" class="form">
+    <div class="grid grid-2">
+      <label class="form__label">
+        <span class="label__title">Nombre</span>
+        <input id="nombre" name="nombre" class="input" required />
+      </label>
+      <label class="form__label">
+        <span class="label__title">Apellido</span>
+        <input id="apellido" name="apellido" class="input" required />
+      </label>
+    </div>
+    <div class="grid grid-2">
+      <label class="form__label">
+        <span class="label__title">DNI</span>
+        <input id="dni" name="dni" class="input" required />
+      </label>
+        <div></div>
+    </div>
+      <div class="grid grid-2">
+        <label class="form__label">
+          <span class="label__title">Edad</span>
+          <input id="edad" name="edad" class="input" required />
+        </label>
+        <label class="form__label">
+          <span class="label__title">Número</span>
+          <input id="numero" name="numero" class="input" required />
+        </label>
+      </div>
+      <div class="grid grid-2">
+        <label class="form__label">
+          <span class="label__title">Posición</span>
+          <input id="posicion" name="posicion" class="input" required />
+        </label>
+        <div></div>
+      </div>
+    <button class="btn btn--primary" type="submit">Crear</button>
+  </form>
+
+  <p id="msg" class="form__error" hidden></p>
+  <pre id="out" class="form__output" hidden></pre>
+
+  <script>
+    const apiBase = location.origin.includes('localhost') ? location.origin : 'http://localhost:3000';
+    document.getElementById('jugadorForm').addEventListener('submit', async function(e){
+      e.preventDefault();
+      const msg = document.getElementById('msg'); const out = document.getElementById('out');
+      msg.hidden = true; out.hidden = true; msg.textContent = ''; out.textContent = '';
+      const payload = {
+        nombre: document.getElementById('nombre').value.trim(),
+        apellido: document.getElementById('apellido').value.trim(),
+        dni: document.getElementById('dni').value.trim(),
+        edad: document.getElementById('edad').value.trim(),
+        numero: document.getElementById('numero').value.trim(),
+        posicion: document.getElementById('posicion').value.trim(),
+      };
+      try{
+        const res = await fetch(apiBase + '/api/jugadores',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        const data = await res.json(); if(!res.ok) throw new Error(data.message||'Error'); out.hidden=false; out.textContent = JSON.stringify(data,null,2);
+      }catch(err){ msg.hidden=false; msg.textContent = err.message || String(err)}
+    })
+  </script>
+</body>
+</html>

@@ -92,12 +92,25 @@ export default function JugadorForm(){
         <div style={{display:'flex',gap:8}}>
           <button className="btn btn--primary" type="submit">{editingId ? 'Guardar' : 'Crear'}</button>
           {editingId && <button type="button" className="btn" onClick={doDelete}>Eliminar</button>}
-          <Link to="/jugadores" className="btn">Listado</Link>
+          <Link to="/jugadores" className="btn btn--primary">Listado</Link>
         </div>
       </form>
 
       {msg && <p className="form__error">{msg}</p>}
-      {out && <pre className="form__output">{JSON.stringify(out, null, 2)}</pre>}
+      {out && (
+        <div className="form__success" role="status" aria-live="polite">
+          <div className="success__title">{out.message || (editingId ? 'Actualizado' : 'Creado')}</div>
+          <div className="success__body">
+            {out.data ? (
+              <dl>
+                {Object.entries(out.data).map(([k, v]) => (
+                  <div key={k} className="success__row"><dt>{k}</dt><dd>{typeof v === 'object' && v !== null ? (((v as any).nombre) ? `${(v as any).nombre} ${(v as any).apellido || ''} (id:${(v as any).id})` : JSON.stringify(v)) : String(v)}</dd></div>
+                ))}
+              </dl>
+            ) : <div>{JSON.stringify(out)}</div>}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

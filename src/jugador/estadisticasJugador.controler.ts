@@ -7,10 +7,20 @@ const em= orm.em
 
 async function findAll(req:Request, res:Response) {
     try {
-        const estadisticas =  await em.find(EstadisticaJugador, {})
-        res
-         .status(200)
-        .json({message: 'Encontrar las estadisticas de los jugadores', data: estadisticas})
+        // populate the jugador relation so the frontend can show the jugador's name
+        let estadisticas =  await em.find(EstadisticaJugador, {}, { populate: ['jugador'] })
+        // optional filtering by jugadorNombre (partial, case-insensitive) via query string
+        const { jugadorNombre } = req.query;
+        if (jugadorNombre) {
+            const q = String(jugadorNombre).toLowerCase();
+            estadisticas = estadisticas.filter(s => {
+                const j: any = (s as any).jugador;
+                if (!j) return false;
+                const full = `${String(j.nombre||'')} ${String(j.apellido||'')}`.toLowerCase();
+                return full.includes(q) || String(j.nombre||'').toLowerCase().includes(q) || String(j.apellido||'').toLowerCase().includes(q);
+            })
+        }
+        res.status(200).json({message: 'Encontrar las estadisticas de los jugadores', data: estadisticas})
     } catch (error:any) {
         res.status(500).json({message: error.message})
     }

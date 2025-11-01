@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import '../styles/jugador-form.scss'
+import RowActions from '../components/RowActions'
 
 export default function JugadorList(){
   const [items, setItems] = useState<any[]>([])
@@ -34,8 +35,7 @@ export default function JugadorList(){
           {items.map(it=> (
             <tr key={it.id}><td>{it.id}</td><td>{it.nombre} {it.apellido}</td><td>{it.dni}</td><td>{it.posicion}</td>
               <td>
-                <Link to={`/jugadores/editar/${it.id}`} className="nav__link">Edit</Link>
-                <button className="btn" onClick={()=>doDelete(it.id)} style={{marginLeft:8}}>Eliminar</button>
+                <RowActions editUrl={`/jugadores/editar/${it.id}`} onDelete={async ()=>{ if(!confirm('Eliminar jugador #' + it.id + '?')) return; const res = await fetch('/api/jugadores/' + it.id, { method: 'DELETE' }); if(!res.ok){ const d=await res.json().catch(()=>({})); setMsg(d.message||'Error'); return } ; load() }} />
               </td>
             </tr>
           ))}

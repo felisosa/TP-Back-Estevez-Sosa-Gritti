@@ -190,8 +190,62 @@ input, select, textarea {
 input::placeholder { color: rgba(0,0,0,0.4); }
 
 /* Table wrapper to allow horizontal scrolling on small screens */
-.table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.table { min-width: 600px; }
+.table-wrapper { /* allow normal flow so content fits the screen on mobile */
+  overflow-x: visible;
+  -webkit-overflow-scrolling: touch;
+}
+.table { 
+  min-width: 0;
+  width: 100%;
+  table-layout: auto;
+  word-break: break-word;
+}
+
+/* Row actions: desktop vs mobile */
+.row-actions { display: flex; align-items: center; }
+.row-actions-desktop { display: flex; gap: 0.5rem; align-items: center; }
+.row-actions-mobile { display: none; position: relative; }
+.btn--icon {
+  padding: 0.25rem 0.6rem;
+  min-width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: transparent; /* remove white UA button background */
+  color: rgba(255,255,255,0.95); /* make the three-dots visible on dark bg */
+  border: 0;
+  box-shadow: none;
+}
+.btn--icon:hover {
+  background: rgba(255,255,255,0.04); /* subtle hover feedback */
+}
+.actions-popover {
+  position: absolute;
+  right: 0;
+  top: 40px;
+  background: rgba(0,0,0,0.92);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 0.25rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  z-index: 500;
+  min-width: 120px; /* ensure enough room so text doesn't wrap per character */
+}
+
+.actions-popover .nav__link,
+.actions-popover .btn {
+  color: rgba(255,255,255,0.95);
+  background: transparent;
+  padding: 0.45rem 0.65rem;
+  text-align: left;
+  border-radius: $radius-sm;
+  display: block;
+  white-space: nowrap; /* prevent breaking inside words */
+  word-break: normal;
+}
+
+.actions-popover .btn { border: 0; cursor: pointer; }
 
 /* Header stacks on small screens */
 .app-header__inner { flex-direction: column; align-items: flex-start; padding: 0.5rem 1rem; }
@@ -211,4 +265,16 @@ input::placeholder { color: rgba(0,0,0,0.4); }
   .hero { padding: 4rem 1rem; }
   .hero__logo { width: min(720px, 80vw); padding: 1rem; border-radius: 12px; }
   .table { min-width: 0; }
+}
+
+/* Mobile overrides: hide inline desktop actions and show three-dot menu */
+@media (max-width: 767px) {
+  .row-actions-desktop { display: none; }
+  .row-actions-mobile { display: block; }
+  /* tighten table spacing on small screens so columns fit */
+  .table th, .table td { padding: 0.35rem 0.5rem; font-size: 0.92rem; }
+  /* allow table cells to wrap instead of forcing horizontal scroll */
+  .table th, .table td { white-space: normal; }
+  /* ensure buttons stay visible */
+  .btn { font-size: 0.9rem; padding: 0.45rem 0.7rem; }
 }

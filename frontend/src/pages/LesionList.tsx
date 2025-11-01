@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import '../styles/lesion-form.scss'
+import RowActions from '../components/RowActions'
 
 export default function LesionList(){
   const [items, setItems] = useState<any[]>([])
@@ -37,8 +38,7 @@ export default function LesionList(){
               <td>{it.cdLesion}</td>
               <td>{it.descLesion}</td>
               <td>
-                <Link to={`/lesiones/editar/${it.id}`} className="nav__link">Edit</Link>
-                <button className="btn" onClick={()=>doDelete(it.id)} style={{marginLeft:8}}>Eliminar</button>
+                <RowActions editUrl={`/lesiones/editar/${it.id}`} onDelete={async ()=>{ if(!confirm('Eliminar lesión #' + it.id + '?')) return; const res = await fetch('/api/lesiones/' + it.id, { method: 'DELETE' }); if(!res.ok){ const d=await res.json().catch(()=>({})); setMsg(d.message||'Error al eliminar'); return } ; load() }} />
               </td>
             </tr>
           ))}

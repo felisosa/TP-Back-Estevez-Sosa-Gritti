@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import '../styles/estadistica-jugador-form.scss'
+import RowActions from '../components/RowActions'
 
 export default function EstadisticaJugadorList(){
   const [items, setItems] = useState<any[]>([])
@@ -39,8 +40,7 @@ export default function EstadisticaJugadorList(){
               <td>{it.asistencias ?? ''}</td>
               <td>{it.jugador ? `${it.jugador.nombre} ${it.jugador.apellido || ''} (id:${it.jugador.id})` : (it.jugador?.id || it.jugador)}</td>
               <td>
-                <Link to={`/estadisticas-jugador/editar/${it.id}`} className="nav__link">Edit</Link>
-                <button className="btn" onClick={()=>doDelete(it.id)} style={{marginLeft:8}}>Eliminar</button>
+                <RowActions editUrl={`/estadisticas-jugador/editar/${it.id}`} onDelete={async ()=>{ if(!confirm('Eliminar estadística #' + it.id + '?')) return; const res = await fetch('/api/estadisticasJugador/' + it.id, { method: 'DELETE' }); if(!res.ok){ const d=await res.json().catch(()=>({})); setMsg(d.message||'Error'); return } ; load() }} />
               </td>
             </tr>
           ))}

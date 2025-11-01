@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import '../styles/tipo-lesion-form.scss'
+import RowActions from '../components/RowActions'
 
 export default function TipoLesionList(){
   const [items, setItems] = useState<any[]>([])
@@ -41,8 +42,7 @@ export default function TipoLesionList(){
           {items.map(it=> (
             <tr key={it.id}><td>{it.id}</td><td>{it.cdTipoLesion}</td><td>{it.descTipoLesion}</td>
               <td>
-                <Link to={`/tipos-lesion/editar/${it.id}`} className="nav__link">Edit</Link>
-                <button className="btn" onClick={()=>doDelete(it.id)} style={{marginLeft:8}}>Eliminar</button>
+                <RowActions editUrl={`/tipos-lesion/editar/${it.id}`} onDelete={async ()=>{ if(!confirm('Eliminar tipo #' + it.id + '?')) return; const res = await fetch('/api/tipoLesiones/' + it.id, { method: 'DELETE' }); if(!res.ok){ const txt = await res.text().catch(()=>''); let parsedMessage = ''; try{ parsedMessage = JSON.parse(txt).message || txt }catch{ parsedMessage = txt } if(/foreign key|cannot delete|constraint fails|violat/i.test(parsedMessage)){ alert('No se puede eliminar este tipo de lesion porque tiene lesiones asociadas') } else { alert(parsedMessage || 'Error al eliminar') } return } ; load() }} />
               </td>
             </tr>
           ))}

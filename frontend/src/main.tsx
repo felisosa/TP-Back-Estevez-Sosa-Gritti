@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider, Link } from 'react-router-dom'
 import LesionForm from './pages/LesionForm'
@@ -14,20 +14,44 @@ import EstadisticaJugadorList from './pages/EstadisticaJugadorList'
 import './styles/global.scss'
 
 function Layout(){
+  const [open, setOpen] = useState(false)
+
+  // close mobile menu on route change (simple approach)
+  useEffect(()=>{
+    const close = ()=> setOpen(false)
+    window.addEventListener('popstate', close)
+    return ()=> window.removeEventListener('popstate', close)
+  },[])
+
+  const NavLinks = (
+    <>
+      <Link to="/lesiones/nueva" className="nav__link" onClick={()=>setOpen(false)}>Nueva Lesión</Link>
+      <Link to="/tipos-lesion/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo Tipo de Lesión</Link>
+      <Link to="/jugadores/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo Jugador</Link>
+      <Link to="/equipos/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo Equipo</Link>
+      <Link to="/estadisticas-jugador/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nueva Estadística</Link>
+    </>
+  )
+
   return (
     <header className="app-header">
       <div className="app-header__inner">
+        {/* hamburger - visible on small screens */}
+        <button className="hamburger" aria-label="Abrir menú" aria-expanded={open} onClick={()=>setOpen(s=>!s)}>☰</button>
+
         <Link to="/" className="brand" aria-label="Ir al inicio">
           <img src="/img/teamtrack-logo-sm.png" alt="TeamTrack" className="brand__logo" />
           <span className="brand__text">TeamTrack</span>
         </Link>
+
         <nav className="nav">
-          <Link to="/lesiones/nueva" className="nav__link">Nueva Lesión</Link>
-          <Link to="/tipos-lesion/nuevo" className="nav__link">Nuevo Tipo de Lesión</Link>
-          <Link to="/jugadores/nuevo" className="nav__link">Nuevo Jugador</Link>
-          <Link to="/equipos/nuevo" className="nav__link">Nuevo Equipo</Link>
-          <Link to="/estadisticas-jugador/nuevo" className="nav__link">Nueva Estadística</Link>
+          {NavLinks}
         </nav>
+
+        {/* mobile dropdown that appears when hamburger is toggled */}
+        <div className={`mobile-nav ${open ? 'open' : ''}`} role="dialog" aria-modal="false">
+          {NavLinks}
+        </div>
       </div>
     </header>
   )

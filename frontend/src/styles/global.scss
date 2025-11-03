@@ -25,6 +25,8 @@ body {
   justify-content: space-between;
   gap: 1rem;
 }
+/* ensure dropdown positioning works */
+.app-header__inner { position: relative; }
 .brand {
   display: flex;
   align-items: center;
@@ -44,6 +46,52 @@ body {
   display: flex;
   gap: 1rem;
 }
+
+/* hamburger button for mobile */
+.hamburger {
+  display: none;
+  border: 0;
+  background: transparent;
+  color: rgba(255,255,255,0.95);
+  font-size: 1.25rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: $radius-sm;
+  cursor: pointer;
+}
+.hamburger:focus { outline: 2px solid rgba(255,255,255,0.12); }
+
+/* mobile dropdown nav (hidden by default) */
+.mobile-nav {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 8px;
+  right: 8px;
+  background: rgba(0,0,0,0.95);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 0.35rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  z-index: 600;
+  /* stack links vertically with a small gap when opened */
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.mobile-nav.open { display: flex; }
+
+/* Make mobile links match desktop nav styling but stacked */
+.mobile-nav .nav__link {
+  color: rgba(255,255,255,0.95);
+  text-decoration: none;
+  padding: 0.5rem 0.75rem; /* same as .nav__link */
+  border-radius: $radius-sm;
+  display: block;
+}
+.mobile-nav .nav__link:hover {
+  background: rgba(255,255,255,0.08);
+  transform: none;
+}
+
 .nav__link {
   color: rgba(255,255,255,0.95);
   text-decoration: none;
@@ -247,12 +295,6 @@ input::placeholder { color: rgba(0,0,0,0.4); }
 
 .actions-popover .btn { border: 0; cursor: pointer; }
 
-/* Header stacks on small screens */
-.app-header__inner { flex-direction: column; align-items: flex-start; padding: 0.5rem 1rem; }
-.brand { font-size: 1rem; }
-.nav { width: 100%; margin-top: 0.5rem; justify-content: flex-start; flex-wrap: wrap; }
-.nav__link { padding: 0.4rem 0.6rem; }
-
 .app-main { padding: 1rem; }
 .hero { padding: 2rem 1rem; }
 .hero__logo { width: 90vw; padding: 0.5rem; border-radius: 8px; }
@@ -271,6 +313,14 @@ input::placeholder { color: rgba(0,0,0,0.4); }
 @media (max-width: 767px) {
   .row-actions-desktop { display: none; }
   .row-actions-mobile { display: block; }
+  /* show hamburger, hide horizontal nav */
+  .hamburger { display: inline-flex; }
+  .nav { display: none; }
+  /* Header stacks on small screens */
+  .app-header__inner { flex-direction: column; align-items: flex-start; padding: 0.5rem 1rem; }
+  .brand { font-size: 1rem; }
+  .nav { width: 100%; margin-top: 0.5rem; justify-content: flex-start; flex-wrap: wrap; }
+  .nav__link { padding: 0.4rem 0.6rem; }
   /* tighten table spacing on small screens so columns fit */
   .table th, .table td { padding: 0.35rem 0.5rem; font-size: 0.92rem; }
   /* allow table cells to wrap instead of forcing horizontal scroll */

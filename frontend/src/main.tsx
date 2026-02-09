@@ -11,6 +11,8 @@ import EquipoForm from './pages/EquipoForm'
 import EquipoList from './pages/EquipoList'
 import EstadisticaJugadorForm from './pages/EstadisticaJugadorForm'
 import EstadisticaJugadorList from './pages/EstadisticaJugadorList'
+import PartidoForm from './pages/PartidoForm'
+import PartidoList from './pages/PartidoList'
 import './styles/global.scss'
 
 function Layout(){
@@ -30,6 +32,7 @@ function Layout(){
       <Link to="/jugadores/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo Jugador</Link>
       <Link to="/equipos/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo Equipo</Link>
       <Link to="/estadisticas-jugador/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nueva Estadística</Link>
+      <Link to="/partidos/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo Partido</Link>
     </>
   )
 
@@ -88,6 +91,10 @@ const router = createBrowserRouter([
   { path: '/estadisticas-jugador', element: <><Layout/><EstadisticaJugadorList/></> },
   { path: '/estadisticas-jugador/nuevo', element: <><Layout/><EstadisticaJugadorForm/></> },
   { path: '/estadisticas-jugador/editar/:id', element: <><Layout/><EstadisticaJugadorForm/></> },
+
+  { path: '/partidos', element: <><Layout/><PartidoList/></> },
+  { path: '/partidos/nuevo', element: <><Layout/><PartidoForm/></> },
+  { path: '/partidos/editar/:id', element: <><Layout/><PartidoForm/></> },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

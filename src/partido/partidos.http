@@ -12,11 +12,12 @@ Content-Type:application/json
 
 {  
     "fecha": "16/05/2025",
-    "tipo": "liga",
+    "tipo": "Copa Argentina",
     "horario": "15:30",
-    "lugar": "Rosario",
-    "rival": "cebollita",
-    "nroFecha": "3"
+    "lugar": "Cordoba",
+    "rival": "River Plate",
+    "nroFecha": "3",
+    "equipo": "3"
 }
 
 ### modificar un partido

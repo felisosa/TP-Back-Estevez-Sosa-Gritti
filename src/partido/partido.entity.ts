@@ -5,7 +5,7 @@ import { Equipo } from "../equipo/equipo.entity.js"
 
 @Entity()
 export class Partido extends BaseEntity {
-    @Property({nullable: false, unique: true})
+    @Property({nullable: false})  // saque el unique pq no se podia cargar por ejemplo 2 amistosos  o 2 finaes, etc
     tipo!: string
 
     @Property({nullable: false})

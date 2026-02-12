@@ -34,7 +34,13 @@ async function findAll(req:Request, res:Response) {
 }
 }
 async function findOne(req:Request,res:Response) {
-    res.status(500).json({message: 'Not implemented'})
+    try {
+        const id = Number.parseInt(req.params.id)
+        const partido = await em.findOneOrFail(Partido, {id}, {populate: ['equipo']})
+        res.status(200).json({message: 'Partido found', data: partido})
+    } catch (error:any) {
+        res.status(500).json({message: error.message})
+    }
 }  
 
 async function add(req:Request, res:Response) {

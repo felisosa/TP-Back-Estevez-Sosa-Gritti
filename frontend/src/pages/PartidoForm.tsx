@@ -111,7 +111,7 @@ export default function PartidoForm(){
         <div className="grid grid-2">
           <label className="form__label">
             <span className="label__title">Rival</span>
-            <input className="input" name="rival" required value={rival} onChange={e=>setRival(e.target.value)} />
+            <input className="input" name="rival" value={rival} onChange={e=>setRival(e.target.value)} /> {/* Le saque el required para  se pueda crear un partido sin rival. Ej una final q todavia no se sabe el rival */}
           </label>
           <label className="form__label">
             <span className="label__title">Lugar</span>

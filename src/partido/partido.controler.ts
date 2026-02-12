@@ -27,7 +27,12 @@ function sanitizePartidoInput(req: Request, res: Response, next: NextFunction){
 
 async function findAll(req:Request, res:Response) {
     try{
-        const partidos = await em.find(Partido, {}, {populate: ['equipo']})  // en el popultate se pone las entidades relacionadas q se quieren traer
+        const { tipo } = req.query;
+        const where: any = {};
+        if (tipo) {
+            where.tipo = String(tipo);
+        }
+        const partidos = await em.find(Partido, where, {populate: ['equipo']})  // en el popultate se pone las entidades relacionadas q se quieren traer
         res.status(200).json({message: "found all teams", data:partidos})
     } catch (error:any){
         res.status(500).json({message: error.message})

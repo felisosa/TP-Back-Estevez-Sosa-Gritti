@@ -6,11 +6,17 @@ import RowActions from '../components/RowActions'
 export default function PartidoList(){
   const [items, setItems] = useState<any[]>([])
   const [msg, setMsg] = useState<string>('')
+  const [filterTipo, setFilterTipo] = useState<string>('')
 
-  useEffect(() => { load() }, [])
-  function load(){
-    fetch('/api/partido').then(r=>r.json()).then(j=>setItems(j.data||[])).catch(e=>setMsg(String(e)))
+  useEffect(() => { load() }, [filterTipo])
+  function load(filterTipo?: string){
+    const url = '/api/partido' + (filterTipo ? '?tipo=' + encodeURIComponent(filterTipo) : '')
+    fetch(url).then(r=>r.json()).then(j=>setItems(j.data||[])).catch(e=>setMsg(String(e)))
   }
+
+  function onSearch(){ load(filterTipo) }
+  function onClear(){ setFilterTipo(''); load() }
+
 
   async function doDelete(id:number){
     if(!confirm('Eliminar partido #' + id + '?')) return
@@ -26,6 +32,11 @@ export default function PartidoList(){
   return (
     <div className="container">
       <h2 className="page-title">Partidos</h2>
+      <div className="filter-row">
+        <input placeholder="Filtrar por tipo (ej: Amistoso)" value={filterTipo} onChange={e=>setFilterTipo(e.target.value)} />
+        <button className="btn btn--primary" onClick={onSearch}>Buscar</button>
+        <button className="btn" onClick={onClear}>Limpiar</button>
+      </div>
       <div style={{marginBottom:12}}>
         <Link to="/partidos/nuevo" className="btn btn--primary">Nuevo Partido</Link>
       </div>

@@ -13,6 +13,7 @@ import { lesionRouter } from './lesion/lesion.routes.js';
 import { tipoLesionRouter } from './lesion/tipoLesion.route.js';
 import { contratoRouter } from './contrato/contrato.routes.js';
 import { estadisticasJugadorRouter } from './jugador/estadisticaJugador.route.js';
+import { authRouter } from './usuario/auth.routes.js';
 
 const app = Express()
 const __filename = fileURLToPath(import.meta.url)
@@ -38,6 +39,7 @@ app.use('/api/lesiones', lesionRouter)
 app.use('/api/tipoLesiones', tipoLesionRouter)
 app.use('/api/contrato', contratoRouter)
 app.use('/api/estadisticasJugador', estadisticasJugadorRouter)
+app.use('/api/auth', authRouter)
 
 // Simple healthcheck
 app.get('/health', (_: Request, res: Response) => {

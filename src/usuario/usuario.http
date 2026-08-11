@@ -1,0 +1,47 @@
+### registrar usuario jugador
+POST http://localhost:3000/api/auth/register
+Content-Type:application/json
+
+{
+    "email": "jugador1@mail.com",
+    "password": "123456",
+    "rol": "jugador",
+    "nombre": "Lionel",
+    "apellido": "Messi",
+    "dni": "40111222",
+    "edad": 24,
+    "numero": 10,
+    "posicion": "delantero"
+}
+
+### registrar usuario dt
+POST http://localhost:3000/api/auth/register
+Content-Type:application/json
+
+{
+    "email": "dt1@mail.com",
+    "password": "123456",
+    "rol": "dt",
+    "nombre": "Marcelo",
+    "apellido": "Gallardo",
+    "dni": "30555111",
+    "edad": 48
+}
+
+### login usuario
+POST http://localhost:3000/api/auth/login
+Content-Type:application/json
+
+{
+    "email": "jugador1@mail.com",
+    "password": "123456"
+}
+
+### login usuario dt
+POST http://localhost:3000/api/auth/login
+Content-Type:application/json
+
+{
+    "email": "dt1@mail.com",
+    "password": "123456"
+}

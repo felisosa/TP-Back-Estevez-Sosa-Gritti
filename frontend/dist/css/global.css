@@ -1,0 +1,92 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, #f7f9fc 0%, #eef2ff 100%);
+  color: #07070a;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-header {
+  background: linear-gradient(90deg, #0b5ed7 0%, #7b61ff 100%);
+  color: white;
+  padding: 1rem 0.5rem;
+  box-shadow: 0 6px 18px rgba(11, 24, 55, 0.18);
+}
+
+.app-header__inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  font-size: 1.25rem;
+}
+
+.nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav__link {
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  transition: background 0.15s ease, transform 0.08s ease;
+}
+
+.nav__link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+.container {
+  max-width: 900px;
+  margin: 1.4rem auto;
+  padding: 1.25rem;
+  background: transparent;
+}
+
+.page-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  color: #0b5ed7;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 0;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn--primary {
+  background: linear-gradient(180deg, #1572ff 0%, #0b5ed7 100%);
+  color: white;
+  box-shadow: 0 8px 18px rgba(21, 114, 255, 0.15);
+}
+
+.btn--primary:hover {
+  filter: brightness(0.95);
+  transform: translateY(-1px);
+}

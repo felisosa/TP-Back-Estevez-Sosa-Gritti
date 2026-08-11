@@ -13,6 +13,9 @@ import { lesionRouter } from './lesion/lesion.routes.js';
 import { tipoLesionRouter } from './lesion/tipoLesion.route.js';
 import { contratoRouter } from './contrato/contrato.routes.js';
 import { estadisticasJugadorRouter } from './jugador/estadisticaJugador.route.js';
+import { PORT } from './config.js';
+import { authRouter } from './usuario/auth.route.js'
+import { authMiddleware } from './shared/middleware/auth.middleware.js'
 
 const app = Express()
 const __filename = fileURLToPath(import.meta.url)
@@ -30,14 +33,16 @@ app.use((req,res, next) => {
      RequestContext.create(orm.em, next)
 })
 
-app.use('/api/equipos', equipoRouter)
-app.use('/api/partido', partidoRouter)
-app.use('/api/jugadores', jugadorRouter)
-app.use('/api/dts', dtRouter)
-app.use('/api/lesiones', lesionRouter)
-app.use('/api/tipoLesiones', tipoLesionRouter)
-app.use('/api/contrato', contratoRouter)
-app.use('/api/estadisticasJugador', estadisticasJugadorRouter)
+app.use('/api/equipos', authMiddleware, equipoRouter)
+app.use('/api/partido', authMiddleware, partidoRouter)
+app.use('/api/jugadores', authMiddleware, jugadorRouter)
+app.use('/api/dts', authMiddleware, dtRouter)
+app.use('/api/lesiones', authMiddleware, lesionRouter)
+app.use('/api/tipoLesiones', authMiddleware, tipoLesionRouter)
+app.use('/api/contrato', authMiddleware, contratoRouter)
+app.use('/api/estadisticasJugador', authMiddleware, estadisticasJugadorRouter)
+
+app.use('/api/auth', authRouter)
 
 // Simple healthcheck
 app.get('/health', (_: Request, res: Response) => {
@@ -50,6 +55,6 @@ app.use((_, res) => {
 
 await syncSchema()  //nunca en la produccion
 
-app.listen(3000, ()=> {
-    console.log('Server running on http://localhost:3000/')
+app.listen(PORT, ()=> {
+    console.log(`Server running on http://localhost:${PORT}/`)
 })

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider, Link } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Link, Navigate, useLocation } from 'react-router-dom'
 import LesionForm from './pages/LesionForm'
 import LesionList from './pages/LesionList'
 import TipoLesionForm from './pages/TipoLesionForm'
@@ -13,28 +13,51 @@ import EstadisticaJugadorForm from './pages/EstadisticaJugadorForm'
 import EstadisticaJugadorList from './pages/EstadisticaJugadorList'
 import PartidoForm from './pages/PartidoForm'
 import PartidoList from './pages/PartidoList'
+import UsuarioRegisterForm from './pages/UsuarioRegisterForm'
+import UsuarioLoginForm from './pages/UsuarioLoginForm'
+import { checkAuthSession, clearAuthToken } from './auth.js'
 import './styles/global.scss'
 
-function Layout(){
+function Layout({ authenticated }: { authenticated: boolean }){
   const [open, setOpen] = useState(false)
+  const location = useLocation()
 
-  // close mobile menu on route change (simple approach)
   useEffect(()=>{
-    const close = ()=> setOpen(false)
-    window.addEventListener('popstate', close)
-    return ()=> window.removeEventListener('popstate', close)
-  },[])
+    setOpen(false)
+  }, [location.pathname])
 
-  const NavLinks = (
-    <>
-      <Link to="/lesiones/nueva" className="nav__link" onClick={()=>setOpen(false)}>Nueva Lesión</Link>
-      <Link to="/tipos-lesion/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo Tipo de Lesión</Link>
-      <Link to="/jugadores/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo Jugador</Link>
-      <Link to="/equipos/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo Equipo</Link>
-      <Link to="/estadisticas-jugador/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nueva Estadística</Link>
-      <Link to="/partidos/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo Partido</Link>
-    </>
-  )
+  async function handleLogout() {
+    await clearAuthToken()
+    window.location.href = '/auth/login'
+  }
+
+  const NavLinks = authenticated
+    ? (
+      <>
+        <Link to="/lesiones/nueva" className="nav__link" onClick={()=>setOpen(false)}>Nueva Lesión</Link>
+        <Link to="/tipos-lesion/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo Tipo de Lesión</Link>
+        <Link to="/jugadores/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo Jugador</Link>
+        <Link to="/equipos/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo Equipo</Link>
+        <Link to="/estadisticas-jugador/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nueva Estadística</Link>
+        <Link to="/partidos/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo Partido</Link>
+        <button
+          className="nav__link"
+          onClick={() => {
+            handleLogout()
+            setOpen(false)
+          }}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem 0.75rem' }}
+        >
+          Cerrar sesión
+        </button>
+      </>
+    )
+    : (
+      <>
+        <Link to="/auth/register" className="nav__link" onClick={()=>setOpen(false)}>Registro</Link>
+        <Link to="/auth/login" className="nav__link" onClick={()=>setOpen(false)}>Login</Link>
+      </>
+    )
 
   return (
     <header className="app-header">
@@ -70,31 +93,95 @@ function Home() {
   )
 }
 
+/*login y registro */
+function ProtectedShell({ children }: { children: React.ReactNode }) {
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    let mounted = true
+    checkAuthSession().then((isAuthenticated) => {
+      if (mounted) setAuthenticated(isAuthenticated)
+    })
+    return () => {
+      mounted = false
+    }
+  }, [])
+
+  if (authenticated === null) {
+    return null
+  }
+
+  if (!authenticated) {
+    return <Navigate to="/auth/login" replace />
+  }
+
+  return (
+    <>
+      <Layout authenticated={true} />
+      {children}
+    </>
+  )
+}
+
+function PublicShell({ children }: { children: React.ReactNode }) {
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    let mounted = true
+    checkAuthSession().then((isAuthenticated) => {
+      if (mounted) setAuthenticated(isAuthenticated)
+    })
+    return () => {
+      mounted = false
+    }
+  }, [])
+
+  if (authenticated === null) {
+    return null
+  }
+
+  if (authenticated) {
+    return <Navigate to="/" replace />
+  }
+
+  return (
+    <>
+      <Layout authenticated={false} />
+      {children}
+    </>
+  )
+}
+
+/* ------------------------------------------------------------------------- */
+
 const router = createBrowserRouter([
-  { path: '/', element: <><Layout/><Home/></> },
-  { path: '/lesiones', element: <><Layout/><LesionList/></> },
-  { path: '/lesiones/nueva', element: <><Layout/><LesionForm/></> },
-  { path: '/lesiones/editar/:id', element: <><Layout/><LesionForm/></> },
+  { path: '/', element: <ProtectedShell><Home/></ProtectedShell> },
+  { path: '/lesiones', element: <ProtectedShell><LesionList/></ProtectedShell> },
+  { path: '/lesiones/nueva', element: <ProtectedShell><LesionForm/></ProtectedShell> },
+  { path: '/lesiones/editar/:id', element: <ProtectedShell><LesionForm/></ProtectedShell> },
 
-  { path: '/tipos-lesion', element: <><Layout/><TipoLesionList/></> },
-  { path: '/tipos-lesion/nuevo', element: <><Layout/><TipoLesionForm/></> },
-  { path: '/tipos-lesion/editar/:id', element: <><Layout/><TipoLesionForm/></> },
+  { path: '/tipos-lesion', element: <ProtectedShell><TipoLesionList/></ProtectedShell> },
+  { path: '/tipos-lesion/nuevo', element: <ProtectedShell><TipoLesionForm/></ProtectedShell> },
+  { path: '/tipos-lesion/editar/:id', element: <ProtectedShell><TipoLesionForm/></ProtectedShell> },
 
-  { path: '/jugadores', element: <><Layout/><JugadorList/></> },
-  { path: '/jugadores/nuevo', element: <><Layout/><JugadorForm/></> },
-  { path: '/jugadores/editar/:id', element: <><Layout/><JugadorForm/></> },
+  { path: '/jugadores', element: <ProtectedShell><JugadorList/></ProtectedShell> },
+  { path: '/jugadores/nuevo', element: <ProtectedShell><JugadorForm/></ProtectedShell> },
+  { path: '/jugadores/editar/:id', element: <ProtectedShell><JugadorForm/></ProtectedShell> },
 
-  { path: '/equipos', element: <><Layout/><EquipoList/></> },
-  { path: '/equipos/nuevo', element: <><Layout/><EquipoForm/></> },
-  { path: '/equipos/editar/:id', element: <><Layout/><EquipoForm/></> },
+  { path: '/equipos', element: <ProtectedShell><EquipoList/></ProtectedShell> },
+  { path: '/equipos/nuevo', element: <ProtectedShell><EquipoForm/></ProtectedShell> },
+  { path: '/equipos/editar/:id', element: <ProtectedShell><EquipoForm/></ProtectedShell> },
 
-  { path: '/estadisticas-jugador', element: <><Layout/><EstadisticaJugadorList/></> },
-  { path: '/estadisticas-jugador/nuevo', element: <><Layout/><EstadisticaJugadorForm/></> },
-  { path: '/estadisticas-jugador/editar/:id', element: <><Layout/><EstadisticaJugadorForm/></> },
+  { path: '/estadisticas-jugador', element: <ProtectedShell><EstadisticaJugadorList/></ProtectedShell> },
+  { path: '/estadisticas-jugador/nuevo', element: <ProtectedShell><EstadisticaJugadorForm/></ProtectedShell> },
+  { path: '/estadisticas-jugador/editar/:id', element: <ProtectedShell><EstadisticaJugadorForm/></ProtectedShell> },
 
-  { path: '/partidos', element: <><Layout/><PartidoList/></> },
-  { path: '/partidos/nuevo', element: <><Layout/><PartidoForm/></> },
-  { path: '/partidos/editar/:id', element: <><Layout/><PartidoForm/></> },
+  { path: '/partidos', element: <ProtectedShell><PartidoList/></ProtectedShell> },
+  { path: '/partidos/nuevo', element: <ProtectedShell><PartidoForm/></ProtectedShell> },
+  { path: '/partidos/editar/:id', element: <ProtectedShell><PartidoForm/></ProtectedShell> },
+
+  { path: '/auth/register', element: <PublicShell><UsuarioRegisterForm/></PublicShell> },
+  { path: '/auth/login', element: <PublicShell><UsuarioLoginForm/></PublicShell> },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

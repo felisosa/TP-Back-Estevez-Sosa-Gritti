@@ -20,7 +20,7 @@ export class Equipo extends BaseEntity {
 
     @OneToMany(()=>Partido, partido => partido.equipo, {cascade:[Cascade.ALL]})
     partidos = new Collection<Partido>(this); // Declaracion de la propiedad "partidos"
-    @OneToMany(()=>Contrato, contrato => contrato.equipos, {cascade:[Cascade.ALL]})
+    @OneToMany(()=>Contrato, contrato => contrato.equipo, {cascade:[Cascade.ALL]})
     contratos = new Collection<Contrato>(this); // Declaracion de la propiedad "contratos"
      
 

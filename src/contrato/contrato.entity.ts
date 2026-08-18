@@ -6,6 +6,9 @@ import { Jugador } from "../jugador/jugador.entity.js"
 @Entity()
 export class Contrato extends BaseEntity {
     @Property({nullable: false, unique: true})
+    cdContrato!: string
+
+    @Property({nullable: false})
     fechaIni!: string
 
     @Property()
@@ -15,13 +18,12 @@ export class Contrato extends BaseEntity {
     fechaRealFin!: string
 
     @ManyToOne(()=>Dt)
-    dts!: Rel<Dt>;
+    dt!: Rel<Dt>;
 
     @ManyToOne(()=> Jugador)
     jugador!: Rel<Jugador>;
 
     @ManyToOne(()=> Equipo)
-    equipos!: Rel<Equipo>;
-     
+    equipo!: Rel<Equipo>;
 
 }

@@ -18,6 +18,6 @@ export class Dt extends BaseEntity {
     @Property({nullable: false})
     edad!: string
 
-    @OneToMany(()=>Contrato, contrato => contrato.dts, {cascade:[Cascade.ALL]})
+    @OneToMany(()=>Contrato, contrato => contrato.dt, {cascade:[Cascade.ALL]})
         contratos = new Collection<Contrato>(this);
 }

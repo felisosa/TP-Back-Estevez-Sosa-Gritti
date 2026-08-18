@@ -5,9 +5,13 @@ import * as mysql from 'mysql2/promise'
 
 const DB_NAME = process.env.DB_NAME ?? 'teamtrack'
 const DB_USER = process.env.DB_USER ?? 'root'
-const DB_PASS = process.env.DB_PASS ?? 'Feli0901!'
 const DB_HOST = process.env.DB_HOST ?? 'localhost'
 const DB_PORT = Number(process.env.DB_PORT ?? 3306)
+
+if (!process.env.DB_PASS) {
+  throw new Error('Falta DB_PASS en las variables de entorno. Copiá .env.example a .env y completalo.')
+}
+const DB_PASS = process.env.DB_PASS
 
 // ensure database exists before initializing MikroORM
 try {

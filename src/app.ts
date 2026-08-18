@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import 'reflect-metadata'
 import { orm, syncSchema } from "./shared/db/orm.js";
 import Express, { NextFunction, Request, Response } from "express"

@@ -13,6 +13,10 @@ import EstadisticaJugadorForm from './pages/EstadisticaJugadorForm'
 import EstadisticaJugadorList from './pages/EstadisticaJugadorList'
 import PartidoForm from './pages/PartidoForm'
 import PartidoList from './pages/PartidoList'
+import DtForm from './pages/DtForm'
+import DtList from './pages/DtList'
+import ContratoForm from './pages/ContratoForm'
+import ContratoList from './pages/ContratoList'
 import UsuarioRegisterForm from './pages/UsuarioRegisterForm'
 import UsuarioLoginForm from './pages/UsuarioLoginForm'
 import { checkAuthSession, clearAuthToken } from './auth.js'
@@ -40,6 +44,8 @@ function Layout({ authenticated }: { authenticated: boolean }){
         <Link to="/equipos/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo Equipo</Link>
         <Link to="/estadisticas-jugador/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nueva Estadística</Link>
         <Link to="/partidos/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo Partido</Link>
+        <Link to="/dts/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo DT</Link>
+        <Link to="/contratos/nuevo" className="nav__link" onClick={()=>setOpen(false)}>Nuevo Contrato</Link>
         <button
           className="nav__link"
           onClick={() => {
@@ -179,6 +185,14 @@ const router = createBrowserRouter([
   { path: '/partidos', element: <ProtectedShell><PartidoList/></ProtectedShell> },
   { path: '/partidos/nuevo', element: <ProtectedShell><PartidoForm/></ProtectedShell> },
   { path: '/partidos/editar/:id', element: <ProtectedShell><PartidoForm/></ProtectedShell> },
+
+  { path: '/dts', element: <ProtectedShell><DtList/></ProtectedShell> },
+  { path: '/dts/nuevo', element: <ProtectedShell><DtForm/></ProtectedShell> },
+  { path: '/dts/editar/:id', element: <ProtectedShell><DtForm/></ProtectedShell> },
+
+  { path: '/contratos', element: <ProtectedShell><ContratoList/></ProtectedShell> },
+  { path: '/contratos/nuevo', element: <ProtectedShell><ContratoForm/></ProtectedShell> },
+  { path: '/contratos/editar/:id', element: <ProtectedShell><ContratoForm/></ProtectedShell> },
 
   { path: '/auth/register', element: <PublicShell><UsuarioRegisterForm/></PublicShell> },
   { path: '/auth/login', element: <PublicShell><UsuarioLoginForm/></PublicShell> },

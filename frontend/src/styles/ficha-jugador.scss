@@ -1,0 +1,78 @@
+@use './_variables.scss' as *;
+
+.ficha-jugador {
+  max-width: 460px;
+  margin: 0 auto;
+  color: rgba(255,255,255,0.92);
+}
+
+.ficha-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: $radius-md;
+  padding: 1.5rem;
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.92);
+}
+
+.ficha-foto {
+  display: flex;
+  justify-content: center;
+}
+.ficha-foto__circle {
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.05);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.ficha-foto__circle img { width: 100%; height: 100%; object-fit: cover; }
+.ficha-foto__placeholder {
+  color: rgba(255,255,255,0.4);
+  font-size: .8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ficha-box {
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: $radius-sm;
+  padding: 0.75rem 1rem;
+  text-align: center;
+}
+.ficha-box__title { font-weight: 700; font-size: 1.05rem; color: rgba(255,255,255,0.92); }
+.ficha-box__sub { color: rgba(255,255,255,0.7); font-size: .85rem; margin-top: 0.15rem; }
+
+.ficha-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 520px) {
+  .ficha-grid-2 { grid-template-columns: 1fr; }
+}
+
+.ficha-panel {
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: $radius-sm;
+  padding: 0.85rem 1rem;
+}
+.ficha-panel h3 {
+  margin: 0 0 0.6rem;
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6);
+}
+.ficha-panel ul {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 0.45rem;
+  font-size: .85rem;
+  color: rgba(255,255,255,0.85);
+}
+.ficha-panel ul li strong { color: rgba(255,255,255,0.95); }
+.ficha-panel__empty { color: rgba(255,255,255,0.4); font-size: .85rem; }

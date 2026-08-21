@@ -7,9 +7,11 @@ import { tipoLesion } from "./tipoLesion.entity.js";
 
 const em= orm.em
 function sanitizeLesionInput(req: Request, res: Response, next: NextFunction){
-    req.body.sanitizedInput={    
+    req.body.sanitizedInput={
         cdLesion: req.body.cdLesion,
         descLesion: req.body.descLesion,
+        fechaInicio: req.body.fechaInicio,
+        fechaFin: req.body.fechaFin,
         jugador: req.body.jugador,
         tipoLesion: req.body.tipoLesion,
     }
@@ -24,10 +26,16 @@ function sanitizeLesionInput(req: Request, res: Response, next: NextFunction){
 
 async function findAll(req:Request, res:Response) {
    try {
+    // Allow optional filtering by jugador via query string: /api/lesiones?jugador=3
+    const { jugador } = req.query
+    const where: any = {}
+    if (jugador) {
+        where.jugador = Number(jugador)
+    }
     const lesiones = await em.find(
       Lesion,
-      {},
-      { populate: [] }
+      where,
+      { populate: ['tipoLesion'] }
     )
     res.status(200).json({ message: 'Lesiones', data: lesiones })
   } catch (error: any) {

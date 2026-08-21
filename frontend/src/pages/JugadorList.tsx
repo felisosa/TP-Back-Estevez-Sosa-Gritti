@@ -30,10 +30,11 @@ export default function JugadorList(){
       {msg && <p className="form__error">{msg}</p>}
       <div className="table-wrapper">
       <table className="table">
-        <thead><tr><th>ID</th><th>Nombre</th><th>DNI</th><th>Posición</th><th>Acciones</th></tr></thead>
+        <thead><tr><th>ID</th><th>Nombre</th><th>DNI</th><th>Posición</th><th>Ficha</th><th>Acciones</th></tr></thead>
         <tbody>
           {items.map(it=> (
             <tr key={it.id}><td>{it.id}</td><td>{it.nombre} {it.apellido}</td><td>{it.dni}</td><td>{it.posicion}</td>
+              <td><Link to={`/jugadores/ficha/${it.id}`} className="nav__link">Ver ficha</Link></td>
               <td>
                 <RowActions editUrl={`/jugadores/editar/${it.id}`} onDelete={async ()=>{ if(!confirm('Eliminar jugador #' + it.id + '?')) return; const res = await fetch('/api/jugadores/' + it.id, { method: 'DELETE' }); if(!res.ok){ const d=await res.json().catch(()=>({})); setMsg(d.message||'Error'); return } ; load() }} />
               </td>

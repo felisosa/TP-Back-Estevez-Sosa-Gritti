@@ -24,6 +24,9 @@ export class Jugador extends BaseEntity {
     @Property({nullable: false})
     posicion!: string
 
+    @Property({nullable: true})
+    foto?: string
+
     @OneToMany(()=>Contrato, contrato => contrato.jugador, {cascade:[Cascade.ALL]})
     contratos = new Collection<Contrato>(this)
     @OneToMany(()=>Lesion, lesion => lesion.jugador, {cascade:[Cascade.ALL]})

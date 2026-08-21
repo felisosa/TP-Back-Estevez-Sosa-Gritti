@@ -1,7 +1,7 @@
 import { Router, type RequestHandler } from "express"
-import { sanitizeJugadorInput, findAll, findOne, add, update, remove } from "./jugador.controler.js"
+import { sanitizeJugadorInput, findAll, findOne, add, update, remove, fotoUpload, uploadFoto } from "./jugador.controler.js"
 
-export const jugadorRouter = Router() 
+export const jugadorRouter = Router()
 
 // Async wrapper to satisfy Express typings and catch rejections
 const asyncHandler = (fn: any): RequestHandler => (req, res, next) => {
@@ -14,3 +14,4 @@ jugadorRouter.post('/', sanitizeJugadorInput as RequestHandler, asyncHandler(add
 jugadorRouter.put('/:id', sanitizeJugadorInput as RequestHandler, asyncHandler(update))
 jugadorRouter.patch('/:id', sanitizeJugadorInput as RequestHandler, asyncHandler(update))
 jugadorRouter.delete('/:id', asyncHandler(remove))
+jugadorRouter.post('/:id/foto', fotoUpload.single('foto') as RequestHandler, asyncHandler(uploadFoto))

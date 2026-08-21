@@ -17,6 +17,7 @@
   "devDependencies": {
     "@types/cors": "2.8.17",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.2.0",
     "rimraf": "5.0.7",
     "sass": "^1.93.2",
     "standard": "17.1.0",
@@ -36,6 +37,7 @@
     "dotenv": "^17.4.2",
     "express": "5.1.0",
     "jsonwebtoken": "^9.0.3",
+    "multer": "^2.2.0",
     "reflect-metadata": "0.2.2"
   },
   "eslintConfig": {

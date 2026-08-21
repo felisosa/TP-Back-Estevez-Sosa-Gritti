@@ -29,7 +29,7 @@ export default function LesionList(){
       <div className="table-wrapper">
       <table className="table">
         <thead>
-          <tr><th>ID</th><th>Código</th><th>Descripción</th><th>Acciones</th></tr>
+          <tr><th>ID</th><th>Código</th><th>Descripción</th><th>Inicio</th><th>Fin</th><th>Acciones</th></tr>
         </thead>
         <tbody>
           {items.map(it => (
@@ -37,6 +37,8 @@ export default function LesionList(){
               <td>{it.id}</td>
               <td>{it.cdLesion}</td>
               <td>{it.descLesion}</td>
+              <td>{it.fechaInicio}</td>
+              <td>{it.fechaFin || '—'}</td>
               <td>
                 <RowActions editUrl={`/lesiones/editar/${it.id}`} onDelete={async ()=>{ if(!confirm('Eliminar lesión #' + it.id + '?')) return; const res = await fetch('/api/lesiones/' + it.id, { method: 'DELETE' }); if(!res.ok){ const d=await res.json().catch(()=>({})); setMsg(d.message||'Error al eliminar'); return } ; load() }} />
               </td>

@@ -7,6 +7,7 @@ import TipoLesionForm from './pages/TipoLesionForm'
 import TipoLesionList from './pages/TipoLesionList'
 import JugadorForm from './pages/JugadorForm'
 import JugadorList from './pages/JugadorList'
+import JugadorFicha from './pages/JugadorFicha'
 import EquipoForm from './pages/EquipoForm'
 import EquipoList from './pages/EquipoList'
 import EstadisticaJugadorForm from './pages/EstadisticaJugadorForm'
@@ -173,6 +174,7 @@ const router = createBrowserRouter([
   { path: '/jugadores', element: <ProtectedShell><JugadorList/></ProtectedShell> },
   { path: '/jugadores/nuevo', element: <ProtectedShell><JugadorForm/></ProtectedShell> },
   { path: '/jugadores/editar/:id', element: <ProtectedShell><JugadorForm/></ProtectedShell> },
+  { path: '/jugadores/ficha/:id', element: <ProtectedShell><JugadorFicha/></ProtectedShell> },
 
   { path: '/equipos', element: <ProtectedShell><EquipoList/></ProtectedShell> },
   { path: '/equipos/nuevo', element: <ProtectedShell><EquipoForm/></ProtectedShell> },

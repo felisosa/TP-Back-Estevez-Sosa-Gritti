@@ -14,3 +14,17 @@
 .input:focus { box-shadow: 0 6px 16px rgba($violet-500, 0.06); border-color: $violet-500; }
 .form__error { color: $danger; margin-top: .5rem; }
 .form__output { background: #fff; padding: .75rem; border-radius: $radius-sm; margin-top: .75rem; color: $black-900; }
+
+.foto-preview {
+  display: flex;
+  align-items: center;
+  img {
+    width: 72px; height: 72px; border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.15);
+  }
+  &__placeholder {
+    color: rgba(255,255,255,0.5);
+    font-size: .85rem;
+  }
+}

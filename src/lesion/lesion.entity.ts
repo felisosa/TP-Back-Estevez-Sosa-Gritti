@@ -13,6 +13,12 @@ export class Lesion extends BaseEntity {
     @Property({nullable: false})
     descLesion!: string
 
+    @Property({nullable: false})
+    fechaInicio!: string
+
+    @Property({nullable: true})
+    fechaFin?: string
+
     @ManyToOne(()=>Jugador)
     jugador!: Rel<Jugador>;
 

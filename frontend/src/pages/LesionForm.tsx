@@ -17,6 +17,8 @@ export default function LesionForm(){
 
   const [cdLesion, setCdLesion] = useState('')
   const [descLesion, setDescLesion] = useState('')
+  const [fechaInicio, setFechaInicio] = useState('')
+  const [fechaFin, setFechaFin] = useState('')
   const [jugadorId, setJugadorId] = useState<number | ''>('')
   const [tipoLesionId, setTipoLesionId] = useState<number | ''>('')
 
@@ -34,6 +36,8 @@ export default function LesionForm(){
         const data = d.data || {}
         setCdLesion(data.cdLesion || '')
         setDescLesion(data.descLesion || '')
+        setFechaInicio(data.fechaInicio || '')
+        setFechaFin(data.fechaFin || '')
         setJugadorId(data.jugador?.id ?? data.jugador ?? '')
         setTipoLesionId(data.tipoLesion?.id ?? data.tipoLesion ?? '')
       }).catch(err => setMsg(String(err)))
@@ -48,6 +52,8 @@ export default function LesionForm(){
     const payload = {
       cdLesion: String(cdLesion||'').trim(),
       descLesion: String(descLesion||'').trim(),
+      fechaInicio: String(fechaInicio||'').trim(),
+      fechaFin: String(fechaFin||'').trim() || undefined,
       jugador: Number(jugadorId||0),
       tipoLesion: Number(tipoLesionId||0),
     }
@@ -67,6 +73,8 @@ export default function LesionForm(){
         // reset
         setCdLesion('')
         setDescLesion('')
+        setFechaInicio('')
+        setFechaFin('')
         setJugadorId('')
         setTipoLesionId('')
       }
@@ -95,6 +103,17 @@ export default function LesionForm(){
           <label className="form__label">
             <span className="label__title">Descripción</span>
             <input className="input" name="descLesion" required value={descLesion} onChange={e=>setDescLesion(e.target.value)} />
+          </label>
+        </div>
+
+        <div className="grid grid-2">
+          <label className="form__label">
+            <span className="label__title">Fecha de inicio</span>
+            <input className="input" type="date" name="fechaInicio" required value={fechaInicio} onChange={e=>setFechaInicio(e.target.value)} />
+          </label>
+          <label className="form__label">
+            <span className="label__title">Fecha de fin</span>
+            <input className="input" type="date" name="fechaFin" value={fechaFin} onChange={e=>setFechaFin(e.target.value)} />
           </label>
         </div>
 

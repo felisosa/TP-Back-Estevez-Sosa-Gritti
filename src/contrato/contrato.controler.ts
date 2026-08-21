@@ -41,7 +41,13 @@ function resolveRelations(input: any) {
 
 async function findAll(req:Request, res:Response): Promise<void> {
     try {
-        const contratos = await em.find(Contrato, {}, { populate: ['dt', 'jugador', 'equipo'] })
+        // Allow optional filtering by jugador via query string: /api/contrato?jugador=3
+        const { jugador } = req.query
+        const where: any = {}
+        if (jugador) {
+            where.jugador = Number(jugador)
+        }
+        const contratos = await em.find(Contrato, where, { populate: ['dt', 'jugador', 'equipo'] })
         res.status(200).json({message: 'Contratos', data: contratos})
     } catch (error:any) {
         res.status(500).json({message: error.message})

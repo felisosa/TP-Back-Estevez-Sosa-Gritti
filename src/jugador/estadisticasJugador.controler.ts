@@ -7,8 +7,14 @@ const em= orm.em
 
 async function findAll(req:Request, res:Response) {
     try {
+        // optional filtering by jugador id via query string: /api/estadisticasJugador?jugador=3
+        const { jugador: jugadorId } = req.query
+        const where: any = {}
+        if (jugadorId) {
+            where.jugador = Number(jugadorId)
+        }
         // populate the jugador relation so the frontend can show the jugador's name
-        let estadisticas =  await em.find(EstadisticaJugador, {}, { populate: ['jugador'] })
+        let estadisticas =  await em.find(EstadisticaJugador, where, { populate: ['jugador'] })
         // optional filtering by jugadorNombre (partial, case-insensitive) via query string
         const { jugadorNombre } = req.query;
         if (jugadorNombre) {

@@ -20,7 +20,7 @@
 </head>
 <body>
   <h1>Crear Lesión</h1>
-  <p>Esta UI refleja los campos del entity Lesion: cdLesion, descLesion, jugador, tipoLesion.</p>
+  <p>Esta UI refleja los campos del entity Lesion: cdLesion, descLesion, fechaInicio, fechaFin, jugador, tipoLesion.</p>
 
   <form id="lesionForm" class="form">
     <div class="grid grid-2">
@@ -31,6 +31,17 @@
       <label class="form__label">
         <span class="label__title">Descripción</span>
         <input id="descLesion" name="descLesion" class="input" required />
+      </label>
+    </div>
+
+    <div class="grid grid-2">
+      <label class="form__label">
+        <span class="label__title">Fecha de inicio</span>
+        <input id="fechaInicio" name="fechaInicio" type="date" class="input" required />
+      </label>
+      <label class="form__label">
+        <span class="label__title">Fecha de fin</span>
+        <input id="fechaFin" name="fechaFin" type="date" class="input" />
       </label>
     </div>
 
@@ -87,9 +98,12 @@
       const out = document.getElementById('out');
       msg.hidden = true; out.hidden = true; msg.textContent = ''; out.textContent = '';
 
+      const fechaFin = document.getElementById('fechaFin').value.trim();
       const payload = {
         cdLesion: document.getElementById('cdLesion').value.trim(),
         descLesion: document.getElementById('descLesion').value.trim(),
+        fechaInicio: document.getElementById('fechaInicio').value.trim(),
+        ...(fechaFin ? { fechaFin } : {}),
         jugador: Number(document.getElementById('jugador').value),
         tipoLesion: Number(document.getElementById('tipoLesion').value),
       };

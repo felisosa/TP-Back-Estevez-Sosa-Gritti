@@ -41,7 +41,11 @@ function resolveRelations(input: any) {
 
 async function findAll(req:Request, res:Response): Promise<void> {
     try {
-        const contratos = await em.find(Contrato, {}, { populate: ['dt', 'jugador', 'equipo'] })
+        const where: any = {}
+        if (req.user?.rol === 'jugador') {
+            where.jugador = req.user.jugadorId
+        }
+        const contratos = await em.find(Contrato, where, { populate: ['dt', 'jugador', 'equipo'] })
         res.status(200).json({message: 'Contratos', data: contratos})
     } catch (error:any) {
         res.status(500).json({message: error.message})
@@ -51,6 +55,10 @@ async function findOne(req:Request,res:Response): Promise<void> {
    try {
         const id = Number.parseInt(req.params.id)
         const contrato = await em.findOneOrFail(Contrato, {id}, { populate: ['dt', 'jugador', 'equipo'] })
+        if (req.user?.rol === 'jugador' && contrato.jugador?.id !== req.user.jugadorId) {
+            res.status(403).json({message: 'No tenés permiso para ver este contrato'})
+            return
+        }
         res.status(200).json({message: 'Contrato encontrado', data: contrato})
     } catch (error:any) {
         if (error.name==='NotFoundError'){

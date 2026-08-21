@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import {Partido} from './partido.entity.js'
+import {Contrato} from '../contrato/contrato.entity.js'
 import {orm} from '../shared/db/orm.js'
 
 const em = orm.em
@@ -32,6 +33,11 @@ async function findAll(req:Request, res:Response) {
         if (tipo) {
             where.tipo = String(tipo);
         }
+        if (req.user?.rol === 'jugador') {
+            const contratos = await em.find(Contrato, { jugador: req.user.jugadorId })
+            const equipoIds = contratos.map(c => c.equipo.id)
+            where.equipo = { $in: equipoIds }
+        }
         const partidos = await em.find(Partido, where, {populate: ['equipo']})  // en el popultate se pone las entidades relacionadas q se quieren traer
         res.status(200).json({message: "found all teams", data:partidos})
     } catch (error:any){
@@ -42,6 +48,13 @@ async function findOne(req:Request,res:Response) {
     try {
         const id = Number.parseInt(req.params.id)
         const partido = await em.findOneOrFail(Partido, {id}, {populate: ['equipo']})
+        if (req.user?.rol === 'jugador') {
+            const contrato = await em.findOne(Contrato, { jugador: req.user.jugadorId, equipo: partido.equipo.id })
+            if (!contrato) {
+                res.status(403).json({message: 'No tenés permiso para ver este partido'})
+                return
+            }
+        }
         res.status(200).json({message: 'Partido found', data: partido})
     } catch (error:any) {
         res.status(500).json({message: error.message})

@@ -6,6 +6,8 @@ export interface JwtPayload {
   id: number
   email: string
   rol: 'jugador' | 'dt'
+  jugadorId?: number
+  dtId?: number
 }
 
 declare global {

@@ -42,9 +42,12 @@ function resolveRelations(input: any) {
 async function findAll(req:Request, res:Response): Promise<void> {
     try {
         // Allow optional filtering by jugador via query string: /api/contrato?jugador=3
+        // (ignorado si el usuario logueado es un jugador: ese siempre queda forzado a ver solo lo suyo)
         const { jugador } = req.query
         const where: any = {}
-        if (jugador) {
+        if (req.user?.rol === 'jugador') {
+            where.jugador = req.user.jugadorId
+        } else if (jugador) {
             where.jugador = Number(jugador)
         }
         const contratos = await em.find(Contrato, where, { populate: ['dt', 'jugador', 'equipo'] })
@@ -57,6 +60,10 @@ async function findOne(req:Request,res:Response): Promise<void> {
    try {
         const id = Number.parseInt(req.params.id)
         const contrato = await em.findOneOrFail(Contrato, {id}, { populate: ['dt', 'jugador', 'equipo'] })
+        if (req.user?.rol === 'jugador' && contrato.jugador?.id !== req.user.jugadorId) {
+            res.status(403).json({message: 'No tenés permiso para ver este contrato'})
+            return
+        }
         res.status(200).json({message: 'Contrato encontrado', data: contrato})
     } catch (error:any) {
         if (error.name==='NotFoundError'){

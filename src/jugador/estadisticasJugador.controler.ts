@@ -8,9 +8,12 @@ const em= orm.em
 async function findAll(req:Request, res:Response) {
     try {
         // optional filtering by jugador id via query string: /api/estadisticasJugador?jugador=3
+        // (ignorado si el usuario logueado es un jugador: ese siempre queda forzado a ver solo lo suyo)
         const { jugador: jugadorId } = req.query
         const where: any = {}
-        if (jugadorId) {
+        if (req.user?.rol === 'jugador') {
+            where.jugador = req.user.jugadorId
+        } else if (jugadorId) {
             where.jugador = Number(jugadorId)
         }
         // populate the jugador relation so the frontend can show the jugador's name
@@ -34,7 +37,11 @@ async function findAll(req:Request, res:Response) {
 async function findOne(req:Request,res:Response) {
     try {
         const id = Number.parseInt(req.params.id)
-        const estadistica = await em.findOneOrFail(EstadisticaJugador,{id})
+        const estadistica = await em.findOneOrFail(EstadisticaJugador,{id}, { populate: ['jugador'] })
+        if (req.user?.rol === 'jugador' && estadistica.jugador?.id !== req.user.jugadorId) {
+            res.status(403).json({ message: 'No tenés permiso para ver esta estadística' })
+            return
+        }
         res.status(200).json({message: 'Estadistica de jugador encontrado', data: estadistica})
     } catch (error:any) {
         if (error.name==='NotFoundError'){

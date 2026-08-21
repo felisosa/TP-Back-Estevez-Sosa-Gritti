@@ -27,9 +27,12 @@ function sanitizeLesionInput(req: Request, res: Response, next: NextFunction){
 async function findAll(req:Request, res:Response) {
    try {
     // Allow optional filtering by jugador via query string: /api/lesiones?jugador=3
+    // (ignorado si el usuario logueado es un jugador: ese siempre queda forzado a ver solo lo suyo)
     const { jugador } = req.query
     const where: any = {}
-    if (jugador) {
+    if (req.user?.rol === 'jugador') {
+      where.jugador = req.user.jugadorId
+    } else if (jugador) {
         where.jugador = Number(jugador)
     }
     const lesiones = await em.find(
@@ -51,11 +54,15 @@ async function findOne(req: Request, res: Response) {
       { id },
       { populate: ['jugador', 'tipoLesion'] }
     )
+    if (req.user?.rol === 'jugador' && lesiones.jugador?.id !== req.user.jugadorId) {
+      res.status(403).json({ message: 'No tenés permiso para ver esta lesión' })
+      return
+    }
     res.status(200).json({ message: 'found lesion', data: lesiones })
   } catch (error: any) {
     res.status(500).json({ message: error.message })
   }
-}  
+}
 
 async function add(req:Request, res:Response) {
    try {

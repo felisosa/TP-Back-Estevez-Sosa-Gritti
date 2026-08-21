@@ -60,7 +60,7 @@ export async function register(req: Request, res: Response): Promise<void> {
     await fork.persistAndFlush(usuario)
 
     const token = jwt.sign(
-      { id: usuario.id, email: usuario.email, rol: usuario.rol },
+      { id: usuario.id, email: usuario.email, rol: usuario.rol, jugadorId: jugador?.id, dtId: dt?.id },
       JWT_SECRET,
       { expiresIn: '1h' }
     )
@@ -121,7 +121,7 @@ export async function login(req: Request, res: Response): Promise<void> {
     }
 
     const token = jwt.sign(
-      { id: usuario.id, email: usuario.email, rol: usuario.rol },
+      { id: usuario.id, email: usuario.email, rol: usuario.rol, jugadorId: usuario.jugador?.id, dtId: usuario.dt?.id },
       JWT_SECRET,
       { expiresIn: '8h' }
     )

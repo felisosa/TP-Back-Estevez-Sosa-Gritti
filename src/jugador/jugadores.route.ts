@@ -1,5 +1,6 @@
 import { Router, type RequestHandler } from "express"
 import { sanitizeJugadorInput, findAll, findOne, add, update, remove, fotoUpload, uploadFoto } from "./jugador.controler.js"
+import { soloRol } from "../shared/middleware/auth.middleware.js"
 
 export const jugadorRouter = Router()
 
@@ -10,8 +11,8 @@ const asyncHandler = (fn: any): RequestHandler => (req, res, next) => {
 
 jugadorRouter.get('/', asyncHandler(findAll))
 jugadorRouter.get('/:id', asyncHandler(findOne))
-jugadorRouter.post('/', sanitizeJugadorInput as RequestHandler, asyncHandler(add))
-jugadorRouter.put('/:id', sanitizeJugadorInput as RequestHandler, asyncHandler(update))
-jugadorRouter.patch('/:id', sanitizeJugadorInput as RequestHandler, asyncHandler(update))
-jugadorRouter.delete('/:id', asyncHandler(remove))
-jugadorRouter.post('/:id/foto', fotoUpload.single('foto') as RequestHandler, asyncHandler(uploadFoto))
+jugadorRouter.post('/', soloRol('dt'), sanitizeJugadorInput as RequestHandler, asyncHandler(add))
+jugadorRouter.put('/:id', soloRol('dt'), sanitizeJugadorInput as RequestHandler, asyncHandler(update))
+jugadorRouter.patch('/:id', soloRol('dt'), sanitizeJugadorInput as RequestHandler, asyncHandler(update))
+jugadorRouter.delete('/:id', soloRol('dt'), asyncHandler(remove))
+jugadorRouter.post('/:id/foto', soloRol('dt'), fotoUpload.single('foto') as RequestHandler, asyncHandler(uploadFoto))
